@@ -3,12 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { GestionModule } from './modules/gestion/gestion.module';
+import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -20,11 +22,13 @@ import { GestionModule } from './modules/gestion/gestion.module';
         password: configService.get<string>('DB_PASSWORD', 'root'),
         database: configService.get<string>('DB_NAME', 'daw_db'),
         autoLoadEntities: true,
-        synchronize: false, 
+        synchronize: false,
       }),
     }),
+
     AuthModule,
-    GestionModule
+    GestionModule,
+    EstadisticasModule,
   ],
   controllers: [],
   providers: [],

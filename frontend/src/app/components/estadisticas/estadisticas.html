@@ -1,0 +1,36 @@
+<div class="card proyectos">
+  <h2>Proyectos Activos</h2>
+  <p>{{ estadisticas.proyectosActivos }}</p>
+  <span class="porcentaje">{{ porcentajeProyectos }}% del total</span>
+</div>
+
+<div class="card proyectos-finalizados">
+  <h2>Proyectos Finalizados</h2>
+  <p>{{ estadisticas.proyectosFinalizados }}</p>
+  <span class="porcentaje">{{ porcentajeProyectosFinalizados }}% del total</span>
+</div>
+
+<div class="card tareas">
+  <h2>Tareas Pendientes</h2>
+  <p>{{ estadisticas.tareasPendientes }}</p>
+  <span class="porcentaje">{{ porcentajeTareas }}% del total</span>
+</div>
+
+<div class="card tareas-finalizadas">
+  <h2>Tareas Finalizadas</h2>
+  <p>{{ estadisticas.tareasFinalizadas }}</p>
+  <span class="porcentaje">{{ porcentajeTareasFinalizadas }}% del total</span>
+</div>
+
+<div class="card clientes">
+  <h2>Clientes Activos</h2>
+  <p>{{ estadisticas.clientesActivos }}</p>
+  <span class="porcentaje">{{ porcentajeClientes }}% del total</span>
+</div>
+
+<div *ngIf="loading" class="loading">
+  Cargando estadísticas...
+</div>
+
+<div *ngIf="!loading">
+</div>

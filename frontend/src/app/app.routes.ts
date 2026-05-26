@@ -4,6 +4,7 @@ import { DashboardComponent } from './layout/dashboard/dashboard';
 import { ClientesComponent } from './layout/clientes/clientes.component'; 
 import { Proyectos } from './layout/proyectos/proyectos'; 
 import { Tareas } from './layout/tareas/tareas'; 
+import { Estadisticas } from './components/estadisticas/estadisticas';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,8 +15,10 @@ export const routes: Routes = [
     children: [ 
       { path: 'clientes', component: ClientesComponent },
       { path: 'proyectos', component: Proyectos },
-      { path: 'tareas', component: Tareas }
+      { path: 'tareas', component: Tareas },
+      { path: 'estadisticas', component: Estadisticas }
     ]
   },
+
   { path: '**', redirectTo: 'login' }
 ];
