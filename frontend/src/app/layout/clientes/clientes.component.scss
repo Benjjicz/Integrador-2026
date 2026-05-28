@@ -1,14 +1,14 @@
 .clientes-container {
   background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  
+
   .header-actions {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
     h2 { margin: 0; color: #2c3e50; }
-    .btn-nuevo { 
-      background-color: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; 
+    .btn-nuevo {
+      background-color: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
       display: inline-flex; align-items: center; gap: 6px;
       .material-symbols-outlined { font-size: 20px; }
-      &:hover { background-color: #2ecc71; } 
+      &:hover { background-color: #2ecc71; }
     }
   }
 
@@ -17,20 +17,28 @@
     h3 { margin-top: 0; color: #2c3e50; }
     .form-group {
       margin-bottom: 15px;
-      label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;}
-      input, .form-select { width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;}
+      label {
+        display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;
+        .required { color: #e74c3c; margin-left: 2px; }
+      }
+      input, .form-select {
+        width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;
+        &:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 2px rgba(52,152,219,0.15); }
+      }
     }
     .form-actions {
       display: flex; gap: 10px;
-      .btn-guardar { 
+      .btn-guardar {
         background-color: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
         display: inline-flex; align-items: center; gap: 6px;
         .material-symbols-outlined { font-size: 18px; }
+        &:hover { background-color: #2ecc71; }
       }
-      .btn-cancelar { 
-        background-color: #95a5a6; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; 
+      .btn-cancelar {
+        background-color: #95a5a6; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;
         display: inline-flex; align-items: center; gap: 6px;
         .material-symbols-outlined { font-size: 18px; }
+        &:hover { background-color: #7f8c8d; }
       }
     }
   }
@@ -39,19 +47,30 @@
     width: 100%; border-collapse: collapse;
     th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
     th { background-color: #f8f9fa; color: #2c3e50; font-weight: 600; }
-    
+
+    .link-correo {
+      color: #3498db; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+      &:hover { text-decoration: underline; color: #2980b9; }
+    }
+
+    .icon-inline {
+      font-size: 15px; vertical-align: middle; color: #7f8c8d;
+    }
+
+    .sin-dato { color: #bdc3c7; }
+
     .badge {
       padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: bold;
     }
 
-    .btn-editar { 
-      background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; 
+    .btn-editar {
+      background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;
       display: inline-flex; align-items: center; gap: 4px;
       .material-symbols-outlined { font-size: 16px; }
-      &:hover { background-color: #2980b9; } 
+      &:hover { background-color: #2980b9; }
     }
   }
 }
 
-.badge-activo { background-color: #d4edda; color: #155724; } 
-.badge-baja { background-color: #f8d7da; color: #721c24; }
+.badge-activo { background-color: #d4edda; color: #155724; }
+.badge-baja   { background-color: #f8d7da; color: #721c24; }

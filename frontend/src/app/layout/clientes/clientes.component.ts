@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- Importamos ChangeDetectorRef
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClienteService } from '../../services/cliente.service';
@@ -17,39 +17,36 @@ export class ClientesComponent implements OnInit {
   // Formulario Crear
   mostrarFormulario = false;
   nuevoNombre = '';
+  nuevoCorreo = '';
+  nuevoTelefono = '';
 
   // Formulario Editar
   mostrarFormularioEdicion = false;
   clienteEditandoId: number | null = null;
   editNombre = '';
+  editCorreo = '';
+  editTelefono = '';
   editEstado = '';
 
   constructor(
     private clienteService: ClienteService,
-    private cdr: ChangeDetectorRef // <-- Lo inyectamos aquí
+    private cdr: ChangeDetectorRef
   ) {}
 
-  // ¡ESTA ES LA LLAVE! Se ejecuta apenas entras a la pantalla
   ngOnInit() {
-    console.log('1. Entrando a la pantalla de clientes...');
     this.cargarClientes();
   }
 
   cargarClientes() {
     this.cargando = true;
-    console.log('2. Pidiendo clientes al backend...');
-    
     this.clienteService.obtenerClientes().subscribe({
       next: (data) => {
-        console.log('3. Datos recibidos:', data);
         this.clientes = data;
         this.cargando = false;
-        
-        // Obligamos a Angular a "repintar" la pantalla inmediatamente
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error al cargar clientes desde OnInit:', err);
+        console.error('Error al cargar clientes:', err);
         this.cargando = false;
         this.cdr.detectChanges();
       }
@@ -59,8 +56,10 @@ export class ClientesComponent implements OnInit {
   // --- SECCIÓN CREAR ---
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
-    this.mostrarFormularioEdicion = false; 
-    this.nuevoNombre = ''; 
+    this.mostrarFormularioEdicion = false;
+    this.nuevoNombre = '';
+    this.nuevoCorreo = '';
+    this.nuevoTelefono = '';
   }
 
   guardarCliente() {
@@ -69,14 +68,18 @@ export class ClientesComponent implements OnInit {
       return;
     }
 
-    this.clienteService.crearCliente({ nombre: this.nuevoNombre }).subscribe({
+    const payload: any = { nombre: this.nuevoNombre };
+    if (this.nuevoCorreo.trim())   payload.correo   = this.nuevoCorreo.trim();
+    if (this.nuevoTelefono.trim()) payload.telefono = this.nuevoTelefono.trim();
+
+    this.clienteService.crearCliente(payload).subscribe({
       next: () => {
-        this.toggleFormulario(); 
-        this.cargarClientes();   
+        this.toggleFormulario();
+        this.cargarClientes();
       },
       error: (err) => {
         console.error('Error al crear cliente', err);
-        alert('Hubo un error al guardar el cliente');
+        alert(err.error?.message || 'Hubo un error al guardar el cliente');
       }
     });
   }
@@ -84,10 +87,12 @@ export class ClientesComponent implements OnInit {
   // --- SECCIÓN EDITAR ---
   abrirEditar(cliente: any) {
     this.mostrarFormularioEdicion = true;
-    this.mostrarFormulario = false; 
+    this.mostrarFormulario = false;
     this.clienteEditandoId = cliente.id;
-    this.editNombre = cliente.nombre;
-    this.editEstado = cliente.estado;
+    this.editNombre    = cliente.nombre;
+    this.editCorreo    = cliente.correo   ?? '';
+    this.editTelefono  = cliente.telefono ?? '';
+    this.editEstado    = cliente.estado;
   }
 
   cancelarEdicion() {
@@ -101,15 +106,17 @@ export class ClientesComponent implements OnInit {
       return;
     }
 
-    const datosActualizados = {
-      nombre: this.editNombre,
-      estado: this.editEstado
+    const datosActualizados: any = {
+      nombre:   this.editNombre,
+      estado:   this.editEstado,
+      correo:   this.editCorreo.trim()   || null,
+      telefono: this.editTelefono.trim() || null,
     };
 
     this.clienteService.actualizarCliente(this.clienteEditandoId!, datosActualizados).subscribe({
       next: () => {
-        this.cancelarEdicion(); 
-        this.cargarClientes();  
+        this.cancelarEdicion();
+        this.cargarClientes();
       },
       error: (err) => {
         console.error('Error al actualizar cliente', err);
@@ -117,4 +124,13 @@ export class ClientesComponent implements OnInit {
       }
     });
   }
+  
+  soloTelefono(event: KeyboardEvent): boolean {
+  const permitidos = /[0-9\-()+\s]/;
+  if (!permitidos.test(event.key)) {
+    event.preventDefault();
+    return false;
+  }
+  return true;
+}
 }

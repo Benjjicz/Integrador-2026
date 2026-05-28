@@ -6,11 +6,22 @@
     </button>
   </div>
 
+  <!-- FORMULARIO CREAR -->
   <div class="formulario-card" *ngIf="mostrarFormulario">
     <h3>Registrar Nuevo Cliente</h3>
     <div class="form-group">
-      <label>Nombre del Cliente:</label>
+      <label>Nombre del Cliente: <span class="required">*</span></label>
       <input type="text" [(ngModel)]="nuevoNombre" placeholder="Ej: Juan Pérez">
+    </div>
+    <div class="form-group">
+      <label>Correo Electrónico:</label>
+      <input type="email" [(ngModel)]="nuevoCorreo" placeholder="Ej: juan@empresa.com">
+    </div>
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" [(ngModel)]="nuevoTelefono" 
+       placeholder="Ej: +54 11 1234-5678"
+       (keypress)="soloTelefono($event)">
     </div>
     <div class="form-actions">
       <button class="btn-guardar" (click)="guardarCliente()"><span class="material-symbols-outlined">save</span> Guardar</button>
@@ -18,11 +29,22 @@
     </div>
   </div>
 
+  <!-- FORMULARIO EDITAR -->
   <div class="formulario-card" *ngIf="mostrarFormularioEdicion">
     <h3>Editar Cliente #{{ clienteEditandoId }}</h3>
     <div class="form-group">
-      <label>Nombre:</label>
+      <label>Nombre: <span class="required">*</span></label>
       <input type="text" [(ngModel)]="editNombre">
+    </div>
+    <div class="form-group">
+      <label>Correo Electrónico:</label>
+      <input type="email" [(ngModel)]="editCorreo" placeholder="Ej: juan@empresa.com">
+    </div>
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" [(ngModel)]="editTelefono" 
+       placeholder="Ej: +54 11 1234-5678"
+       (keypress)="soloTelefono($event)">
     </div>
     <div class="form-group">
       <label>Estado:</label>
@@ -44,6 +66,8 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
         <th>Estado</th>
         <th>Acciones</th>
       </tr>
@@ -53,8 +77,24 @@
         <td>{{ cliente.id }}</td>
         <td>{{ cliente.nombre }}</td>
         <td>
+          <span *ngIf="cliente.correo">
+            <a [href]="'mailto:' + cliente.correo" class="link-correo">
+              <span class="material-symbols-outlined icon-inline">mail</span>
+              {{ cliente.correo }}
+            </a>
+          </span>
+          <span *ngIf="!cliente.correo" class="sin-dato">—</span>
+        </td>
+        <td>
+          <span *ngIf="cliente.telefono">
+            <span class="material-symbols-outlined icon-inline">phone</span>
+            {{ cliente.telefono }}
+          </span>
+          <span *ngIf="!cliente.telefono" class="sin-dato">—</span>
+        </td>
+        <td>
           <span class="badge" [ngClass]="{
-            'badge-activo': cliente.estado === 'ACTIVO', 
+            'badge-activo': cliente.estado === 'ACTIVO',
             'badge-baja': cliente.estado === 'BAJA'
           }">
             {{ cliente.estado }}
@@ -67,7 +107,7 @@
         </td>
       </tr>
       <tr *ngIf="clientes.length === 0">
-        <td colspan="4" style="text-align: center; padding: 20px;">No hay clientes registrados.</td>
+        <td colspan="6" style="text-align: center; padding: 20px;">No hay clientes registrados.</td>
       </tr>
     </tbody>
   </table>

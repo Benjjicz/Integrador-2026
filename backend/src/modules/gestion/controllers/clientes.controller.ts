@@ -49,6 +49,8 @@ export class ClientesController {
         return clientes.map(cliente => ({
             id: cliente.id,
             nombre: cliente.nombre,
+            correo: cliente.correo,       // <-- AGREGADO
+            telefono: cliente.telefono,
             estado: cliente.estado
         } as ListClienteDTO));
     }

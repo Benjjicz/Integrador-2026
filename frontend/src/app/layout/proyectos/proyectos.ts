@@ -21,13 +21,15 @@ export class Proyectos implements OnInit {
 
   mostrarFormulario = false;
   nuevoNombre = '';
-  nuevoIdCliente: number | null = null; 
+  nuevoIdCliente: number | null = null;
+  nuevoFechaFinalizacion: string = '';
 
   mostrarFormularioEdicion = false;
   proyectoEditandoId: number | null = null;
   editNombre = '';
   editEstado = '';
   editIdCliente: number | null = null;
+  editFechaFinalizacion: string = '';
 
   constructor(
     private proyectoService: ProyectoService,
@@ -67,11 +69,36 @@ export class Proyectos implements OnInit {
     );
   }
 
+
+  diasRestantes(fecha: string | null): number | null {
+  if (!fecha) return null;
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  // Tomamos solo la parte de la fecha YYYY-MM-DD para evitar desfase de zona horaria
+  const soloFecha = typeof fecha === 'string' ? fecha.substring(0, 10) : fecha;
+  const partes = soloFecha.split('-');
+  const limite = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  return Math.ceil((limite.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+  // Devuelve la clase CSS según el estado del plazo
+  estadoPlazo(proyecto: any): string {
+    if (proyecto.estado === 'FINALIZADO' || proyecto.estado === 'BAJA') return '';
+    const dias = this.diasRestantes(proyecto.fechaFinalizacion);
+    if (dias === null) return '';
+    if (dias < 0)  return 'plazo-vencido';
+    if (dias <= 7) return 'plazo-proximo';
+    return 'plazo-ok';
+  }
+
+
+
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
     this.mostrarFormularioEdicion = false;
     this.nuevoNombre = '';
-    this.nuevoIdCliente = null; 
+    this.nuevoIdCliente = null;
+    this.nuevoFechaFinalizacion = ''; 
   }
 
   guardarProyecto() {
@@ -83,6 +110,7 @@ export class Proyectos implements OnInit {
     if (this.nuevoIdCliente) {
       nuevoProyecto.idCliente = Number(this.nuevoIdCliente);
     }
+    if (this.nuevoFechaFinalizacion) nuevoProyecto.fechaFinalizacion = this.nuevoFechaFinalizacion;
 
     this.proyectoService.crearProyecto(nuevoProyecto).subscribe({
       next: () => {
@@ -99,7 +127,10 @@ export class Proyectos implements OnInit {
     this.proyectoEditandoId = proyecto.id;
     this.editNombre = proyecto.nombre;
     this.editEstado = proyecto.estado;
-    this.editIdCliente = proyecto.cliente ? proyecto.cliente.id : null; 
+    this.editIdCliente = proyecto.cliente ? proyecto.cliente.id : null;
+    this.editFechaFinalizacion = proyecto.fechaFinalizacion
+      ? proyecto.fechaFinalizacion.substring(0, 10)
+      : '';
   }
 
   cancelarEdicion() {
@@ -107,23 +138,26 @@ export class Proyectos implements OnInit {
     this.proyectoEditandoId = null;
   }
 
-  guardarEdicion() {
-    if (!this.editNombre.trim()) {
-      alert('El nombre es obligatorio');
-      return;
-    }
-    const datosAct: any = {
-      nombre: this.editNombre,
-      estado: this.editEstado,
-      idCliente: this.editIdCliente ? Number(this.editIdCliente) : null
-    };
 
-    this.proyectoService.actualizarProyecto(this.proyectoEditandoId!, datosAct).subscribe({
-      next: () => {
-        this.cancelarEdicion();
-        this.cargarDatos();
-      },
-      error: (err) => alert('Error al actualizar el proyecto')
-    });
+
+guardarEdicion() {
+  if (!this.editNombre.trim()) {
+    alert('El nombre es obligatorio');
+    return;
+  }
+  const datosAct: any = {
+    nombre: this.editNombre,
+    estado: this.editEstado,
+    idCliente: this.editIdCliente ? Number(this.editIdCliente) : null,
+    fechaFinalizacion: this.editFechaFinalizacion || null  // 
+  };
+
+  this.proyectoService.actualizarProyecto(this.proyectoEditandoId!, datosAct).subscribe({
+    next: () => {
+      this.cancelarEdicion();
+      this.cargarDatos();
+    },
+    error: (err) => alert('Error al actualizar el proyecto')
+  });
   }
 }

@@ -21,6 +21,10 @@
         </option>
       </select>
     </div>
+    <div class="form-group">
+      <label>Fecha Límite (Opcional):</label>
+      <input type="date" [(ngModel)]="nuevoFechaFinalizacion" class="form-select">
+    </div>
     <div class="form-actions">
       <button class="btn-guardar" (click)="guardarProyecto()"><span class="material-symbols-outlined">save</span> Guardar Proyecto</button>
       <button class="btn-cancelar" (click)="toggleFormulario()"><span class="material-symbols-outlined">close</span> Cancelar</button>
@@ -50,6 +54,10 @@
         <option value="BAJA">Baja</option>
       </select>
     </div>
+    <div class="form-group">
+      <label>Fecha Límite:</label>
+      <input type="date" [(ngModel)]="editFechaFinalizacion" class="form-select">
+    </div>
     <div class="form-actions">
       <button class="btn-guardar" (click)="guardarEdicion()"><span class="material-symbols-outlined">save</span> Actualizar</button>
       <button class="btn-cancelar" (click)="cancelarEdicion()"><span class="material-symbols-outlined">close</span> Cancelar</button>
@@ -59,9 +67,9 @@
   <p *ngIf="cargando" class="mensaje-carga">Cargando proyectos...</p>
 
   <div class="buscador-container" *ngIf="!cargando">
-    <input type="text" 
-           [(ngModel)]="terminoBusqueda" 
-           placeholder="🔍 Buscar proyecto por nombre..." 
+    <input type="text"
+           [(ngModel)]="terminoBusqueda"
+           placeholder="🔍 Buscar proyecto por nombre..."
            class="input-buscador">
   </div>
 
@@ -72,6 +80,7 @@
         <th>Nombre</th>
         <th>Cliente</th>
         <th>Estado</th>
+        <th>Plazo</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -84,13 +93,32 @@
           <span *ngIf="!proy.cliente" class="badge-interno">Interno</span>
         </td>
         <td>
-          <span class="badge" 
+          <span class="badge"
             [ngClass]="{
-              'badge-activo': proy.estado === 'ACTIVO', 
-              'badge-finalizado': proy.estado === 'FINALIZADO', 
+              'badge-activo': proy.estado === 'ACTIVO',
+              'badge-finalizado': proy.estado === 'FINALIZADO',
               'badge-baja': proy.estado === 'BAJA'
             }">
             {{ proy.estado }}
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!proy.fechaFinalizacion" style="color: #94a3b8;">—</span>
+          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! < 0"
+                class="badge-plazo plazo-vencido">
+            🔴 Vencido hace {{ diasRestantes(proy.fechaFinalizacion)! * -1 }} días
+          </span>
+          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! === 0"
+                class="badge-plazo plazo-proximo">
+            🟡 Vence hoy
+          </span>
+          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 0 && diasRestantes(proy.fechaFinalizacion)! <= 7"
+                class="badge-plazo plazo-proximo">
+            🟡 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
+          </span>
+          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 7"
+                class="badge-plazo plazo-ok">
+            🟢 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
           </span>
         </td>
         <td>
@@ -100,7 +128,7 @@
         </td>
       </tr>
       <tr *ngIf="proyectosFiltrados.length === 0">
-        <td colspan="5" style="text-align: center; padding: 20px;">No se encontraron proyectos con ese nombre.</td>
+        <td colspan="6" style="text-align: center; padding: 20px;">No se encontraron proyectos con ese nombre.</td>
       </tr>
     </tbody>
   </table>

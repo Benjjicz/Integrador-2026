@@ -85,3 +85,27 @@
     }
   }
 }
+
+
+.badge-plazo {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.plazo-ok {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.plazo-proximo {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+.plazo-vencido {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}

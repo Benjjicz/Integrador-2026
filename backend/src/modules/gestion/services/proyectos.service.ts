@@ -36,7 +36,7 @@ export class ProyectosService {
       if (cliente.estado !== EstadosClientesEnum.ACTIVO) {
         throw new BadRequestException('Solo se pueden asociar clientes en estado ACTIVO a un proyecto.');
       }
-      nuevoProyecto.cliente = cliente as any; 
+      nuevoProyecto.cliente = cliente as any;
     }
 
     const guardado = await this.proyectoRepo.save(nuevoProyecto);
@@ -44,16 +44,14 @@ export class ProyectosService {
   }
 
   async actualizarProyecto(id: number, dto: UpdateProyectoDto): Promise<void> {
+    console.log('DTO recibido:', dto);
     const proyecto = await this.proyectoRepo.findOne({ where: { id } });
     if (!proyecto) {
       throw new NotFoundException(`Proyecto con ID ${id} no encontrado.`);
     }
 
-    // --- SOLUCIÓN AL FALSO POSITIVO DE DUPLICACIÓN ---
     if (dto.nombre) {
       const existeNombre = await this.proyectoRepo.findOne({ where: { nombre: dto.nombre } });
-      
-      // Si el nombre existe en la base de datos y su ID es distinto al que estamos editando, choca.
       if (existeNombre && existeNombre.id !== id) {
         throw new ConflictException(`Ya existe otro proyecto con el nombre '${dto.nombre}'.`);
       }
@@ -64,26 +62,28 @@ export class ProyectosService {
 
     if (dto.idCliente !== undefined) {
       if (!dto.idCliente) {
-        proyecto.cliente = null as any; 
+        proyecto.cliente = null as any;
       } else {
         const cliente = await this.clienteRepo.findOne({ where: { id: dto.idCliente } });
         if (!cliente) throw new NotFoundException(`Cliente no encontrado.`);
         if (cliente.estado !== EstadosClientesEnum.ACTIVO) {
           throw new BadRequestException('Solo se pueden asociar clientes en estado ACTIVO a un proyecto.');
         }
-        
         proyecto.cliente = cliente as any;
       }
     }
 
-    // Quitamos el try-catch genérico que enmascaraba el error, y simplemente guardamos.
+    if (dto.fechaFinalizacion !== undefined) {
+      proyecto.fechaFinalizacion = dto.fechaFinalizacion ? new Date(dto.fechaFinalizacion) : null;
+    }
+
     await this.proyectoRepo.save(proyecto);
   }
 
   async obtenerProyectos(estado?: EstadosProyectosEnum): Promise<ProyectoEntity[]> {
     const query = this.proyectoRepo.createQueryBuilder('proyecto')
-      .leftJoinAndSelect('proyecto.cliente', 'cliente') 
-      .leftJoinAndSelect('proyecto.tareas', 'tareas');  
+      .leftJoinAndSelect('proyecto.cliente', 'cliente')
+      .leftJoinAndSelect('proyecto.tareas', 'tareas');
 
     if (estado) {
       query.where('proyecto.estado = :estado', { estado });

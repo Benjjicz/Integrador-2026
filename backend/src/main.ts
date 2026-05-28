@@ -1,20 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import helmet from 'helmet';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // CORRECCIÓN: Ahora permite tanto a Angular en desarrollo como a Nginx en producción
-  app.enableCors({
-    origin: ['http://localhost:4200', 'http://localhost'], 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
-  });
-
-  app.use(helmet());
+  app.enableCors(); 
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

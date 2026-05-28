@@ -21,7 +21,7 @@ export class ProyectosController {
     @ApiBearerAuth()
     @Put(":id")
     async actualizarProyecto(
-        @Param("id", ParseIntPipe) id: number, 
+        @Param("id", ParseIntPipe) id: number,
         @Body() dto: UpdateProyectoDto
     ): Promise<void> {
         await this.proyectosService.actualizarProyecto(id, dto);
@@ -32,14 +32,13 @@ export class ProyectosController {
     @Get()
     async obtenerProyectos(@Query("estado") estado?: EstadosProyectosEnum) {
         const proyectos = await this.proyectosService.obtenerProyectos(estado);
-        
-        
+
         return proyectos.map(p => ({
             id: p.id,
             nombre: p.nombre,
             estado: p.estado,
-            // Mandamos el objeto cliente completo (si existe)
+            fechaFinalizacion: p.fechaFinalizacion ?? null,
             cliente: p.cliente ? { id: p.cliente.id, nombre: p.cliente.nombre } : null
-        })); 
+        }));
     }
 }

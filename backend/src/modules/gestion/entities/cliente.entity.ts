@@ -10,6 +10,13 @@ export class ClienteEntity {
   @Column({ type: 'text', unique: true, nullable: false })
   nombre!: string;
 
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  correo?: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  telefono?: string;
+
+
   @Column({ type: 'enum', enum: EstadosClientesEnum, default: EstadosClientesEnum.ACTIVO })
   estado!: EstadosClientesEnum;
 
