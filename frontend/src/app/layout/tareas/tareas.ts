@@ -23,7 +23,7 @@ export class Tareas implements OnInit {
   mostrarFormularioEdicion = false;
   tareaEditandoId: number | null = null;
   editDescripcion = '';
-  editEstado = '';
+  editEstado = 'PENDIENTE'; 
   editIdProyecto: number | null = null;
 
   constructor(
@@ -72,9 +72,8 @@ export class Tareas implements OnInit {
       return;
     }
 
-    // ACÁ ESTÁ EL PUENTE: Esto es lo que se envía al DTO del backend
     const nuevaTarea = { 
-      descripcion: this.nuevaDescripcion,
+      descripcion: this.nuevaDescripcion.trim(),
       idProyecto: Number(this.nuevoIdProyecto) 
     };
 
@@ -115,7 +114,7 @@ export class Tareas implements OnInit {
     }
 
     const datosAct = {
-      descripcion: this.editDescripcion,
+      descripcion: this.editDescripcion.trim(),
       estado: this.editEstado,
       idProyecto: Number(this.editIdProyecto)
     };
@@ -133,7 +132,7 @@ export class Tareas implements OnInit {
   }
 
   eliminarTarea(id: number) {
-    if(confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
       this.tareaService.eliminarTarea(id).subscribe({
         next: () => this.cargarDatos(),
         error: (err) => alert('Error al eliminar la tarea')

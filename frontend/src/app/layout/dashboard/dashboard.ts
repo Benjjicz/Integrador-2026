@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RouterOutlet], 
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss'
+  styleUrl: './dashboard.scss' 
 })
 export class DashboardComponent implements OnInit {
-  // Aquí declaramos la variable que Angular estaba buscando
   nombreUsuario: string = 'Usuario'; 
 
   constructor(private router: Router) {}
@@ -20,18 +19,21 @@ export class DashboardComponent implements OnInit {
   }
 
   extraerNombreDelToken() {
-    // Verificamos que estamos en el navegador para evitar errores
     if (typeof window !== 'undefined' && window.localStorage) {
       const token = localStorage.getItem('token'); 
       
       if (token) {
         try {
-          // Desencriptamos el JWT para sacar el nombre real
           const payloadBase64 = token.split('.')[1]; 
-          const payloadDecodificado = JSON.parse(atob(payloadBase64)); 
-          this.nombreUsuario = payloadDecodificado.nombre; 
+          const payloadDecodificado = JSON.parse(window.atob(payloadBase64)); 
+          
+          this.nombreUsuario = payloadDecodificado.nombre || 
+                               payloadDecodificado.username || 
+                               payloadDecodificado.email || 
+                               'Usuario'; 
         } catch (e) {
-          console.error('No se pudo decodificar el token', e);
+          console.error('Error al decodificar el token:', e);
+          this.nombreUsuario = 'Usuario';
         }
       }
     }

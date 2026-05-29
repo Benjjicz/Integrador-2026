@@ -1,111 +1,226 @@
 .clientes-container {
-  background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  
+  background: #f0f4f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  /* --- CABECERA Y ACCIONES --- */
   .header-actions {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-    h2 { margin: 0; color: #2c3e50; }
-    .btn-nuevo { 
-      background-color: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; 
-      display: inline-flex; align-items: center; gap: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 { margin: 0; color: #1e293b; }
+
+    .btn-nuevo {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease;
+
       .material-symbols-outlined { font-size: 20px; }
-      &:hover { background-color: #2ecc71; } 
+      &:hover { background-color: #2ecc71; }
     }
   }
 
+  /* --- FORMULARIOS (CREAR / EDITAR) --- */
   .formulario-card {
-    background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0e0e0;
-    h3 { margin-top: 0; color: #2c3e50; }
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+    h3 { margin-top: 0; color: #1e293b; }
+
     .form-group {
       margin-bottom: 15px;
-      label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;}
-      input, .form-select { width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;}
+
+      label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #334155; }
+      input, .form-select {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        background: #f8fafc;
+        color: #1e293b;
+
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+      }
     }
+
     .form-actions {
-      display: flex; gap: 10px;
-      .btn-guardar { 
-        background-color: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
-        display: inline-flex; align-items: center; gap: 6px;
+      display: flex;
+      gap: 10px;
+
+      .btn-guardar {
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        &:hover { background-color: #2ecc71; }
         .material-symbols-outlined { font-size: 18px; }
       }
-      .btn-cancelar { 
-        background-color: #95a5a6; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; 
-        display: inline-flex; align-items: center; gap: 6px;
+
+      .btn-cancelar {
+        background-color: #95a5a6;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        &:hover { background-color: #7f8c8d; }
         .material-symbols-outlined { font-size: 18px; }
       }
     }
   }
 
+  /* --- SECCIÓN BUSCADOR --- */
+  .buscador-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+
+    .input-buscador {
+      width: 100%;
+      max-width: 350px;
+      padding: 10px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      outline: none;
+      font-size: 14px;
+      background: #ffffff;
+      color: #1e293b;
+      transition: all 0.3s ease;
+
+      &:focus {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+        border-color: #3b82f6;
+      }
+    }
+  }
+
+  /* --- TABLA DE DATOS --- */
   .tabla-datos {
-    width: 100%; border-collapse: collapse;
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-    th { background-color: #f8f9fa; color: #2c3e50; font-weight: 600; }
-    
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #1e293b;
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    tr:hover td {
+      background-color: #f1f5f9;
+    }
+
+    /* Estados del Proyecto */
     .badge {
-      padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: bold;
+      display: inline-block;
+
+      &.badge-activo { background-color: #d4edda; color: #155724; }
+      &.badge-finalizado { background-color: #cce5ff; color: #004085; }
+      &.badge-baja { background-color: #f8d7da; color: #721c24; }
     }
 
+    /* Vínculo de Clientes */
     .badge-proyecto {
-      background-color: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: bold; border: 1px solid #bae6fd;
+      background-color: #e0f2fe;
+      color: #0284c7;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: bold;
+      border: 1px solid #bae6fd;
     }
-    
+
     .badge-interno {
-      background-color: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: bold; border: 1px solid #e2e8f0;
+      background-color: #f1f5f9;
+      color: #475569;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: bold;
+      border: 1px solid #e2e8f0;
     }
 
-    .btn-editar { 
-      background-color: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; 
-      display: inline-flex; align-items: center; gap: 4px;
+    /* Plazos e Indicadores de Tiempo */
+    .badge-plazo {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+
+      &.plazo-ok {
+        background: rgba(16, 185, 129, 0.12);
+        color: #059669;
+      }
+
+      &.plazo-proximo {
+        background: rgba(245, 158, 11, 0.12);
+        color: #d97706;
+      }
+
+      &.plazo-vencido {
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626;
+      }
+    }
+
+    /* Botonera de Acciones */
+    .btn-editar {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background-color 0.2s ease;
+
       .material-symbols-outlined { font-size: 16px; }
-      &:hover { background-color: #2980b9; } 
+      &:hover { background-color: #2980b9; }
     }
   }
-}
-
-.badge-activo { background-color: #d4edda; color: #155724; } 
-.badge-finalizado { background-color: #cce5ff; color: #004085; }
-.badge-baja { background-color: #f8d7da; color: #721c24; }
-
-.buscador-container {
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: flex-end;
-  
-  .input-buscador {
-    width: 300px;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    font-size: 14px;
-    transition: box-shadow 0.3s ease;
-    
-    &:focus {
-      box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-      border-color: #3498db;
-    }
-  }
-}
-
-
-.badge-plazo {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.plazo-ok {
-  background: rgba(16, 185, 129, 0.12);
-  color: #059669;
-}
-
-.plazo-proximo {
-  background: rgba(245, 158, 11, 0.12);
-  color: #d97706;
-}
-
-.plazo-vencido {
-  background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
 }

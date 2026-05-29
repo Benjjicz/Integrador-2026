@@ -1,62 +1,87 @@
 
-/* =========================================
-   VARIABLES GLOBALES - PALETA DE COLORES
-   ========================================= */
 :root {
-  --color-dark-navy: #1A2530;   // El color más oscuro, ideal para la barra lateral (Sidebar)
-  --color-slate: #2B4151;       // Ideal para encabezados o botones primarios
-  --color-steel: #446271;       // Color secundario, para bordes u hovers
-  --color-soft-blue: #678B99;   // Detalles sutiles o insignias
-  --color-light-grey: #B1C8CF;  // Fondos secundarios o texto sobre fondos oscuros
+  /* Paleta principal */
+  --color-dark-navy: #1A2530;
+  --color-slate: #2B4151;
+  --color-steel: #446271;
+  --color-soft-blue: #678B99;
+  --color-light-grey: #B1C8CF;
   
-  // Colores de utilidad y fondo
-  --bg-color: #F4F7F8;          // Un gris azulado ultra claro para el fondo de la app
-  --surface-color: #FFFFFF;     // Blanco puro para las tarjetas/formularios
-  --text-main: #1A2530;         // Texto principal (usamos tu color oscuro)
-  --text-muted: #678B99;        // Texto secundario
+  /* Colores de utilidad y fondo */
+  --bg-color: #F4F7F8;
+  --surface-color: #FFFFFF;
+  --text-main: #1A2530;
+  --text-muted: #678B99;
   
-  // Colores de estado (para los estados de proyectos/clientes/tareas)
-  --state-active: #2ECC71;      // Verde activo
-  --state-pending: #F39C12;     // Naranja pendiente
-  --state-inactive: #E74C3C;    // Rojo baja
+  /* Colores de estado */
+  --state-active: #2ECC71;
+  --state-pending: #F39C12;
+  --state-inactive: #E74C3C;
 }
 
-/* =========================================
-   ESTILOS BASE
-   ========================================= */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Clases utilitarias globales para botones */
 .btn-primary {
   background-color: var(--color-slate);
-  color: white;
+  color: #FFFFFF;
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     background-color: var(--color-steel);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
-/* Diseño base para tarjetas (formularios, tablas) */
 .card {
   background-color: var(--surface-color);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(26, 37, 48, 0.05);
-  padding: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-light-grey);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-soft-blue);
 }

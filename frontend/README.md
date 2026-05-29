@@ -1,59 +1,74 @@
-# Frontend
+### Frontend - Sistema de Gestión de Proyectos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Este proyecto es la interfaz de usuario para el Sistema de Gestión de Proyectos. Desarrollado con Angular, permite la interacción intuitiva con el backend, la gestión de clientes, proyectos y el seguimiento de tareas mediante un tablero Kanban.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Tecnologías
 
-```bash
-ng serve
-```
+Framework: Angular 17+
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Arquitectura: Standalone Components
 
-## Code scaffolding
+Estilos: SCSS
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Comunicación: HttpClient con arquitectura de Proxy Inverso
 
-```bash
-ng generate component component-name
-```
+UI/UX: Angular CDK (Drag & Drop)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 📋 Requisitos Previos
 
-## Building
+Node.js (v18 o superior)
 
-To build the project run:
+-**Angular CLI instalado: npm install -g @angular/cli**
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## ⚙️ Configuración y Ejecución
 
-## Running unit tests
+-**cd frontend** -**npm install**
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Para ejecutar la aplicación en desarrollo, utilizamos un archivo de configuración de proxy para evitar problemas de CORS y redirigir las peticiones correctamente al backend:
 
-```bash
-ng test
-```
+-**ng serve --proxy-config proxy.conf.json**
 
-## Running end-to-end tests
+La aplicación estará disponible en http://localhost:4200.
 
-For end-to-end (e2e) testing, run:
+Producción (Build)
+--**ng build**
 
-```bash
-ng e2e
-```
+Los archivos generados se encontrarán en la carpeta /dist.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 💡 Notas: Arquitectura de Despliegue
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Detección de entorno: Utilizamos isDevMode() para determinar dinámicamente la URL base.
+
+Proxy Inverso (Nginx): En producción, la aplicación utiliza rutas relativas (/api/...). Esto permite que el servidor web (Nginx) actúe como un puente hacia el backend en el puerto 3000, garantizando una comunicación segura.
+
+---
+
+## 📂 Estructura del Proyecto
+
+src/app/:
+
+layout/: Componentes principales (Clientes, Proyectos, Tareas).
+
+kanban/: Componente especializado para la gestión visual de tareas.
+
+services/: Servicios para la comunicación con la API (ClienteService, ProyectosService, etc.).
+
+---
+
+## Este proyecto fue desarrollado como parte del Trabajo Final (TP) - DAW.
+
+**-GRUPO "A"**
+
+**INTEGRANTES**
+
+- Andrea Natalia Segovia
+- Benjamin Fibiger
+- Susana Ester Ledesma

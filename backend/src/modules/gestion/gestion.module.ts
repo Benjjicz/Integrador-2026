@@ -13,13 +13,12 @@ import { TareaEntity } from "./entities/tarea.entity";
 
 @Module({
     imports: [
-        // Registro de las entidades para que TypeORM pueda usarlas en este módulo 
         TypeOrmModule.forFeature([ClienteEntity, ProyectoEntity, TareaEntity]),
-        // Importación de AuthModule para permitir el uso de AuthGuard y JwtService 
         AuthModule 
     ],
     controllers: [ClientesController, ProyectosController, TareasController], 
     providers: [ClientesService, ProyectosService, TareasService], 
-    exports: [],
+    
+    exports: [TareasService, ProyectosService, ClientesService], 
 })
 export class GestionModule {}

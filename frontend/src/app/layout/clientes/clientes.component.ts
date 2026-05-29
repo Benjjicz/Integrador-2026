@@ -14,19 +14,17 @@ export class ClientesComponent implements OnInit {
   clientes: any[] = [];
   cargando = true;
 
-  // Formulario Crear
   mostrarFormulario = false;
   nuevoNombre = '';
   nuevoCorreo = '';
   nuevoTelefono = '';
 
-  // Formulario Editar
   mostrarFormularioEdicion = false;
   clienteEditandoId: number | null = null;
   editNombre = '';
   editCorreo = '';
   editTelefono = '';
-  editEstado = '';
+  editEstado = 'ACTIVO'; 
 
   constructor(
     private clienteService: ClienteService,
@@ -53,7 +51,6 @@ export class ClientesComponent implements OnInit {
     });
   }
 
-  // --- SECCIÓN CREAR ---
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
     this.mostrarFormularioEdicion = false;
@@ -68,7 +65,7 @@ export class ClientesComponent implements OnInit {
       return;
     }
 
-    const payload: any = { nombre: this.nuevoNombre };
+    const payload: any = { nombre: this.nuevoNombre.trim() };
     if (this.nuevoCorreo.trim())   payload.correo   = this.nuevoCorreo.trim();
     if (this.nuevoTelefono.trim()) payload.telefono = this.nuevoTelefono.trim();
 
@@ -84,7 +81,6 @@ export class ClientesComponent implements OnInit {
     });
   }
 
-  // --- SECCIÓN EDITAR ---
   abrirEditar(cliente: any) {
     this.mostrarFormularioEdicion = true;
     this.mostrarFormulario = false;
@@ -107,7 +103,7 @@ export class ClientesComponent implements OnInit {
     }
 
     const datosActualizados: any = {
-      nombre:   this.editNombre,
+      nombre:   this.editNombre.trim(),
       estado:   this.editEstado,
       correo:   this.editCorreo.trim()   || null,
       telefono: this.editTelefono.trim() || null,
@@ -126,11 +122,11 @@ export class ClientesComponent implements OnInit {
   }
   
   soloTelefono(event: KeyboardEvent): boolean {
-  const permitidos = /[0-9\-()+\s]/;
-  if (!permitidos.test(event.key)) {
-    event.preventDefault();
-    return false;
+    const permitidos = /[0-9\-()+\s]/;
+    if (!permitidos.test(event.key)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
-  return true;
-}
 }

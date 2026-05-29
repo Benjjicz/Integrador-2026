@@ -13,8 +13,7 @@ export class TareaEntity {
   @Column({ type: 'enum', enum: EstadosTareasEnum, default: EstadosTareasEnum.PENDIENTE })
   estado!: EstadosTareasEnum;
 
-  // Única relación: Manda a guardar el ID automáticamente
-  @ManyToOne(() => ProyectoEntity, (proyecto) => proyecto.tareas)
+  @ManyToOne(() => ProyectoEntity, (proyecto) => proyecto.tareas, { nullable: false })
   @JoinColumn({ name: 'id_proyecto' })
   proyecto!: ProyectoEntity;
 }

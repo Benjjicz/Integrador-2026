@@ -1,20 +1,72 @@
-<div class="login-container">
-  <div class="card login-card">
-    <h2>Acceso al Sistema</h2>
-    <p>Ingresa tus datos para continuar</p>
+<div class="login-wrapper">
 
-    <div class="form-group">
-      <label>Usuario</label>
-      <input type="text" [(ngModel)]="nombre" placeholder="Ej: usuario" class="form-control">
+  <!-- PANEL IZQUIERDO: Info del sistema -->
+  <div class="info-panel">
+    <div class="info-content">
+      <h1 class="sistema-titulo">🗂️ GestiónPro</h1>
+      <p class="sistema-subtitulo">Sistema de Gestión de Proyectos</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">👥</span>
+          <h3>Clientes</h3>
+          <p>Registrá y gestioná tus clientes con contacto y estado en tiempo real.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📁</span>
+          <h3>Proyectos</h3>
+          <p>Creá proyectos, asigná clientes y controlá plazos y estados fácilmente.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">✅</span>
+          <h3>Tareas</h3>
+          <p>Organizá las tareas de cada proyecto y seguí su avance en todo momento.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📊</span>
+          <h3>Estadísticas</h3>
+          <p>Visualizá métricas clave de proyectos, tareas y clientes activos.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🗃️</span>
+          <h3>Tablero Kanban</h3>
+          <p>Mové tareas entre columnas con drag & drop y actualizá estados al instante.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔒</span>
+          <h3>Acceso Seguro</h3>
+          <p>Autenticación con JWT para proteger todos los recursos del sistema.</p>
+        </div>
+      </div>
+
+      <div class="grupo-badge">👨‍💻 Grupo A</div>
     </div>
-
-    <div class="form-group">
-      <label>Contraseña</label>
-      <input type="password" [(ngModel)]="clave" placeholder="Tu contraseña" class="form-control">
-    </div>
-
-    <p class="error-text" *ngIf="errorMensaje">{{ errorMensaje }}</p>
-
-    <button class="btn-primary w-100" (click)="iniciarSesion()">Ingresar</button>
   </div>
+
+  <!-- PANEL DERECHO: Formulario de login -->
+  <div class="login-panel">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>¡Bienvenido! 👋</h2>
+        <p>Ingresá tus datos para continuar</p>
+      </div>
+
+      <div class="form-group">
+        <label>👤 Usuario</label>
+        <input type="text" [(ngModel)]="nombre" placeholder="Ej: usuario" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>🔑 Contraseña</label>
+        <input type="password" [(ngModel)]="clave" placeholder="Tu contraseña" class="form-control">
+      </div>
+
+      <p class="error-text" *ngIf="errorMensaje">⚠️ {{ errorMensaje }}</p>
+
+      <button class="btn-ingresar" (click)="iniciarSesion()">Ingresar al Sistema →</button>
+
+      <p class="footer-text">Tecnicatura Universitaria en Desarrollo Web · 2026</p>
+    </div>
+  </div>
+
 </div>

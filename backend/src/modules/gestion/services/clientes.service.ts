@@ -39,7 +39,6 @@ export class ClientesService {
 
     if (!cliente) throw new NotFoundException(`Cliente no encontrado.`);
 
-    // Regla de Negocio: Validación de Baja
     if (dto.estado === EstadosClientesEnum.BAJA && cliente.estado !== EstadosClientesEnum.BAJA) {
       if (cliente.proyectos && cliente.proyectos.length > 0) {
         throw new BadRequestException('No se puede dar de baja un cliente registrado en proyectos.');

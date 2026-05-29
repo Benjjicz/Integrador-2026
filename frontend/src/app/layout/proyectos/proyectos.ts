@@ -16,7 +16,6 @@ export class Proyectos implements OnInit {
   clientesActivos: any[] = []; 
   cargando = true;
 
-  // ESTA ES LA VARIABLE NUEVA PARA EL BUSCADOR
   terminoBusqueda = '';
 
   mostrarFormulario = false;
@@ -27,7 +26,7 @@ export class Proyectos implements OnInit {
   mostrarFormularioEdicion = false;
   proyectoEditandoId: number | null = null;
   editNombre = '';
-  editEstado = '';
+  editEstado = 'ACTIVO'; 
   editIdCliente: number | null = null;
   editFechaFinalizacion: string = '';
 
@@ -59,7 +58,6 @@ export class Proyectos implements OnInit {
     });
   }
 
-  // ¡ESTA ES LA FUNCIONALIDAD EXTRA! Filtra en tiempo real.
   get proyectosFiltrados() {
     if (!this.terminoBusqueda) {
       return this.proyectos;
@@ -69,19 +67,18 @@ export class Proyectos implements OnInit {
     );
   }
 
-
   diasRestantes(fecha: string | null): number | null {
-  if (!fecha) return null;
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-  // Tomamos solo la parte de la fecha YYYY-MM-DD para evitar desfase de zona horaria
-  const soloFecha = typeof fecha === 'string' ? fecha.substring(0, 10) : fecha;
-  const partes = soloFecha.split('-');
-  const limite = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
-  return Math.ceil((limite.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
-}
+    if (!fecha) return null;
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    
+    const soloFecha = typeof fecha === 'string' ? fecha.substring(0, 10) : fecha;
+    const partes = soloFecha.split('-');
+    const limite = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+    
+    return Math.ceil((limite.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
+  }
 
-  // Devuelve la clase CSS según el estado del plazo
   estadoPlazo(proyecto: any): string {
     if (proyecto.estado === 'FINALIZADO' || proyecto.estado === 'BAJA') return '';
     const dias = this.diasRestantes(proyecto.fechaFinalizacion);
@@ -90,8 +87,6 @@ export class Proyectos implements OnInit {
     if (dias <= 7) return 'plazo-proximo';
     return 'plazo-ok';
   }
-
-
 
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
@@ -106,11 +101,14 @@ export class Proyectos implements OnInit {
       alert('El nombre del proyecto es obligatorio');
       return;
     }
-    const nuevoProyecto: any = { nombre: this.nuevoNombre };
+    
+    const nuevoProyecto: any = { nombre: this.nuevoNombre.trim() };
     if (this.nuevoIdCliente) {
       nuevoProyecto.idCliente = Number(this.nuevoIdCliente);
     }
-    if (this.nuevoFechaFinalizacion) nuevoProyecto.fechaFinalizacion = this.nuevoFechaFinalizacion;
+    if (this.nuevoFechaFinalizacion) {
+      nuevoProyecto.fechaFinalizacion = this.nuevoFechaFinalizacion;
+    }
 
     this.proyectoService.crearProyecto(nuevoProyecto).subscribe({
       next: () => {
@@ -138,26 +136,25 @@ export class Proyectos implements OnInit {
     this.proyectoEditandoId = null;
   }
 
+  guardarEdicion() {
+    if (!this.editNombre.trim()) {
+      alert('El nombre es obligatorio');
+      return;
+    }
 
+    const datosAct: any = {
+      nombre: this.editNombre.trim(),
+      estado: this.editEstado,
+      idCliente: this.editIdCliente ? Number(this.editIdCliente) : null,
+      fechaFinalizacion: this.editFechaFinalizacion || null
+    };
 
-guardarEdicion() {
-  if (!this.editNombre.trim()) {
-    alert('El nombre es obligatorio');
-    return;
-  }
-  const datosAct: any = {
-    nombre: this.editNombre,
-    estado: this.editEstado,
-    idCliente: this.editIdCliente ? Number(this.editIdCliente) : null,
-    fechaFinalizacion: this.editFechaFinalizacion || null  // 
-  };
-
-  this.proyectoService.actualizarProyecto(this.proyectoEditandoId!, datosAct).subscribe({
-    next: () => {
-      this.cancelarEdicion();
-      this.cargarDatos();
-    },
-    error: (err) => alert('Error al actualizar el proyecto')
-  });
+    this.proyectoService.actualizarProyecto(this.proyectoEditandoId!, datosAct).subscribe({
+      next: () => {
+        this.cancelarEdicion();
+        this.cargarDatos();
+      },
+      error: (err) => alert('Error al actualizar el proyecto')
+    });
   }
 }

@@ -9,6 +9,7 @@ import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env', 
     }),
 
     TypeOrmModule.forRootAsync({
@@ -22,7 +23,8 @@ import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
         password: configService.get<string>('DB_PASSWORD', 'root'),
         database: configService.get<string>('DB_NAME', 'daw_db'),
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: false, 
+        ssl: configService.get<string>('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
       }),
     }),
 

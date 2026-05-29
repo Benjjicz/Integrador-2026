@@ -10,8 +10,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  @ApiOkResponse({ description: 'Login exitoso. Devuelve el token JWT.' })
-  @ApiUnauthorizedResponse({ description: 'Credenciales inválidas o usuario inactivo.' })
+  @ApiOkResponse({ description: 'Login exitoso.' })
+  @ApiUnauthorizedResponse({ description: 'Credenciales inválidas.' })
   async login(@Body() dto: LoginDto): Promise<{ token: string }> {
     return await this.authService.login(dto);
   }

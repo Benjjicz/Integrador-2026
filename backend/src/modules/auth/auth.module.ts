@@ -15,12 +15,12 @@ import { AuthGuard } from './guards/auth.guard';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET', 'super_secreto_daw_2026'),
-        signOptions: { expiresIn: '8h' }, // El token dura 8 horas
+        signOptions: { expiresIn: '8h' }, 
       }),
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthGuard],
-  exports: [JwtModule, AuthGuard], // Exportamos JwtModule y el Guard para usarlos en el módulo de Gestión
+  exports: [JwtModule, AuthGuard], 
 })
 export class AuthModule {}

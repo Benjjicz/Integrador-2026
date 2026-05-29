@@ -1,0 +1,80 @@
+<div class="selector-wrapper">
+  <label for="proyecto">Proyecto:</label>
+  <select id="proyecto" [(ngModel)]="idProyectoSeleccionado" (change)="onProyectoChange()">
+    <option [ngValue]="null">-- Seleccionar proyecto --</option>
+    <option *ngFor="let p of proyectos" [ngValue]="p.id">{{ p.nombre }}</option>
+  </select>
+</div>
+
+<div class="kanban-board" cdkDropListGroup>
+  
+  <div class="column">
+    <h3>📌 Pendientes</h3>
+    <div 
+      cdkDropList 
+      id="PENDIENTE" 
+      [cdkDropListData]="tareasPendientes" 
+      [cdkDropListConnectedTo]="['BAJA', 'FINALIZADA']"
+      (cdkDropListDropped)="onDrop($event)" 
+      class="drop-list">
+      
+      <div class="task-card" 
+           *ngFor="let tarea of tareasPendientes" 
+           cdkDrag 
+           [cdkDragData]="tarea">
+        {{ tarea.descripcion }}
+      </div>
+
+      <div class="empty-msg" *ngIf="tareasPendientes.length === 0">
+        No hay tareas pendientes
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <h3>⏳ De Baja / Historial</h3>
+    <div 
+      cdkDropList 
+      id="BAJA" 
+      [cdkDropListData]="tareasDeBaja" 
+      [cdkDropListConnectedTo]="['PENDIENTE', 'FINALIZADA']"
+      (cdkDropListDropped)="onDrop($event)" 
+      class="drop-list">
+      
+      <div class="task-card card-baja" 
+           *ngFor="let tarea of tareasDeBaja" 
+           cdkDrag 
+           [cdkDragData]="tarea">
+        {{ tarea.descripcion }}
+      </div>
+
+      <div class="empty-msg" *ngIf="tareasDeBaja.length === 0">
+        Sin tareas en esta fase
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <h3>✅ Finalizadas</h3>
+    <div 
+      cdkDropList 
+      id="FINALIZADA" 
+      [cdkDropListData]="tareasFinalizadas" 
+      [cdkDropListConnectedTo]="['PENDIENTE', 'BAJA']"
+      (cdkDropListDropped)="onDrop($event)" 
+      class="drop-list">
+      
+      <div class="task-card card-finalizada" 
+           *ngFor="let tarea of tareasFinalizadas" 
+           cdkDrag 
+           [cdkDragData]="tarea">
+        {{ tarea.descripcion }}
+      </div>
+
+      <div class="empty-msg" *ngIf="tareasFinalizadas.length === 0">
+        Ninguna tarea finalizada
+      </div>
+    </div>
+  </div>
+
+</div>

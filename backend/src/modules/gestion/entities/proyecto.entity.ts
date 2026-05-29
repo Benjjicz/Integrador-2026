@@ -14,13 +14,12 @@ export class ProyectoEntity {
   @Column({ type: 'enum', enum: EstadosProyectosEnum, default: EstadosProyectosEnum.ACTIVO })
   estado!: EstadosProyectosEnum;
 
-  @Column({ type: 'date', nullable: true, name: 'fecha_finalizacion' })
+  @Column({ type: 'date', nullable: true, name: 'fechaFinalizacionObjetivo' })
   fechaFinalizacion!: Date | null;
 
-  // Dejamos ÚNICAMENTE la relación para que TypeORM no se confunda al insertar
   @ManyToOne(() => ClienteEntity, (cliente) => cliente.proyectos, { nullable: true })
-  @JoinColumn({ name: 'id_cliente' })
-  cliente!: ClienteEntity;
+  @JoinColumn({ name: 'id_cliente', referencedColumnName: 'id' })
+  cliente!: ClienteEntity | null;
 
   @OneToMany(() => TareaEntity, (tarea) => tarea.proyecto)
   tareas!: TareaEntity[];

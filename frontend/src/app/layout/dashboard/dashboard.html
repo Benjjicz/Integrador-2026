@@ -6,28 +6,31 @@
     </div>
     
     <nav class="sidebar-nav">
-      <a routerLink="/dashboard/proyectos" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard/proyectos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
         <span class="material-symbols-outlined">folder_managed</span>
         Proyectos
       </a>
-      <a routerLink="/dashboard/tareas" routerLinkActive="active" class="nav-item">
+      
+      <a routerLink="/dashboard/tareas" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
         <span class="material-symbols-outlined">task_alt</span>
         Tareas
       </a>
-      <a routerLink="/dashboard/clientes" routerLinkActive="active" class="nav-item">
+      
+      <a routerLink="/dashboard/kanban" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="material-symbols-outlined">view_kanban</span>
+        Tablero Kanban
+      </a>
+      
+      <a routerLink="/dashboard/clientes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
         <span class="material-symbols-outlined">groups</span>
         Clientes
       </a>
-
-      <!-- ESTADISTICAS -->
-  <a routerLink="/dashboard/estadisticas" routerLinkActive="active" class="nav-item">
-    <span class="material-symbols-outlined">bar_chart</span>
-    Estadísticas
-  </a>
-
+      
+      <a routerLink="/dashboard/estadisticas" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="material-symbols-outlined">bar_chart</span>
+        Estadísticas
+      </a>
     </nav>
-
-
 
     <div class="sidebar-footer">
       <button class="btn-logout" (click)="cerrarSesion()">

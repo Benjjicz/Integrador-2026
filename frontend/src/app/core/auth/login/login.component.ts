@@ -12,7 +12,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  nombre = ''; // <-- CORREGIDO: Cambiamos 'usuario' por 'nombre'
+  nombre = ''; 
   clave = '';
   errorMensaje = ''; 
 
@@ -24,7 +24,6 @@ export class LoginComponent {
   iniciarSesion() {
     this.errorMensaje = ''; 
 
-    // CORREGIDO: Aquí también enviamos this.nombre
     this.authService.login(this.nombre, this.clave).subscribe({
       next: (res: any) => { 
         this.authService.guardarToken(res.token);

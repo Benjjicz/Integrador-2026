@@ -5,26 +5,28 @@ import { Request } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private configService: ConfigService) {}
+  constructor(
+    private readonly jwtService: JwtService, 
+    private readonly configService: ConfigService
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
-    
-    if (!token) {
-      throw new UnauthorizedException('No se proporcionó un token de acceso');
-    }
-    
+
+    if (!token) throw new UnauthorizedException('Token no proporcionado');
+
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get<string>('JWT_SECRET', 'super_secreto_daw_2026'),
-      });
-      // Asignamos el payload al request para que esté disponible en los controladores si se necesita
+      const secret = this.configService.get<string>('JWT_SECRET');
+      if (!secret) throw new Error('JWT_SECRET no configurado');
+
+      const payload = await this.jwtService.verifyAsync(token, { secret });
       request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException('Token inválido o expirado');
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('secret')) throw error;
+      throw new UnauthorizedException('Token inválido');
     }
-    
+
     return true;
   }
 

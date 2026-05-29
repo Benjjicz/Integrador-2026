@@ -1,0 +1,124 @@
+.clientes-container {
+  padding: 30px;
+  background-color: transparent;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  h2 { color: var(--text-main); margin: 0 0 5px 0; }
+  p { color: var(--text-muted); margin: 0; font-size: 0.9rem; }
+}
+
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--text-main);
+  font-size: 0.9rem;
+
+  .select-filtro {
+    width: auto;
+    min-width: 150px;
+    padding: 6px 12px;
+    background-color: var(--color-dark-navy);
+    color: var(--text-main);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 6px;
+  }
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-dark-navy);
+  border-radius: 8px;
+  border: 1px solid var(--color-light-grey);
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: var(--text-main);
+  font-size: 0.9rem;
+
+  thead {
+    background-color: rgba(255, 255, 255, 0.05);
+    tr th {
+      padding: 14px 16px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--color-light-grey);
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    &:hover { background-color: rgba(255, 255, 255, 0.02); }
+    
+    td { padding: 14px 16px; vertical-align: middle; }
+  }
+}
+
+.bold-text { font-weight: 600; }
+.muted-text { padding: 30px !important; }
+
+// Estado Badges
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  
+  &-activo { background-color: rgba(40, 167, 69, 0.2); color: #28a745; }
+  &-baja { background-color: rgba(220, 53, 69, 0.2); color: var(--state-inactive); }
+}
+
+// Botones de acción dentro de la tabla
+.btn-action {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.9; }
+}
+.btn-success { background-color: #28a745; color: white; }
+.btn-danger { background-color: var(--state-inactive); color: white; }
+
+// Estilos del Modal
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background-color: var(--color-dark-navy);
+  border: 1px solid var(--color-light-grey);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  color: var(--text-main);
+
+  h3 { margin-top: 0; margin-bottom: 5px; }
+  p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}

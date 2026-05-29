@@ -5,10 +5,13 @@ import { ClientesComponent } from './layout/clientes/clientes.component';
 import { Proyectos } from './layout/proyectos/proyectos'; 
 import { Tareas } from './layout/tareas/tareas'; 
 import { Estadisticas } from './components/estadisticas/estadisticas';
+import { KanbanComponent } from './features/tareas/kanban/kanban.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  
   { path: 'login', component: LoginComponent },
+  
   { 
     path: 'dashboard', 
     component: DashboardComponent,
@@ -16,7 +19,9 @@ export const routes: Routes = [
       { path: 'clientes', component: ClientesComponent },
       { path: 'proyectos', component: Proyectos },
       { path: 'tareas', component: Tareas },
-      { path: 'estadisticas', component: Estadisticas }
+      { path: 'kanban', component: KanbanComponent },
+      { path: 'estadisticas', component: Estadisticas },
+      { path: '', redirectTo: 'proyectos', pathMatch: 'full' }
     ]
   },
 

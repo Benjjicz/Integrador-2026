@@ -16,25 +16,25 @@ export class AuthService {
   ) {}
 
   async login(dto: LoginDto): Promise<{ token: string }> {
-    // 1. Buscar al usuario
+    // 1. Buscamos al usuario
     const usuario = await this.usuarioRepo.findOne({ where: { nombre: dto.nombre } });
 
     if (!usuario) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    // 2. Validar que no esté dado de baja
+    // 2. Validamos que no esté dado de baja
     if (usuario.estado !== EstadosUsuariosEnum.ACTIVO) {
       throw new UnauthorizedException('El usuario no se encuentra activo en el sistema');
     }
 
-    // 3. Comparar contraseñas (bcrypt entiende el hash generado por pgcrypto)
+    // 3. Comparamos contraseñas (bcrypt entiende el hash generado por pgcrypto)
     const passwordMatch = await bcrypt.compare(dto.clave, usuario.clave);
     if (!passwordMatch) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    // 4. Generar el Token JWT
+    // 4. Generamos el Token JWT
     const payload = { sub: usuario.id, nombre: usuario.nombre };
     const token = await this.jwtService.signAsync(payload);
 

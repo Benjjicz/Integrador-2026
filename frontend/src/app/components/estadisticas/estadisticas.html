@@ -1,36 +1,54 @@
-<div class="card proyectos">
-  <h2>Proyectos Activos</h2>
-  <p>{{ estadisticas.proyectosActivos }}</p>
-  <span class="porcentaje">{{ porcentajeProyectos }}% del total</span>
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+  <p>Cargando estadísticas e informes...</p>
 </div>
 
-<div class="card proyectos-finalizados">
-  <h2>Proyectos Finalizados</h2>
-  <p>{{ estadisticas.proyectosFinalizados }}</p>
-  <span class="porcentaje">{{ porcentajeProyectosFinalizados }}% del total</span>
-</div>
+<div class="estadisticas-container" *ngIf="!loading">
 
-<div class="card tareas">
-  <h2>Tareas Pendientes</h2>
-  <p>{{ estadisticas.tareasPendientes }}</p>
-  <span class="porcentaje">{{ porcentajeTareas }}% del total</span>
-</div>
+  <div class="dashboard-grid">
 
-<div class="card tareas-finalizadas">
-  <h2>Tareas Finalizadas</h2>
-  <p>{{ estadisticas.tareasFinalizadas }}</p>
-  <span class="porcentaje">{{ porcentajeTareasFinalizadas }}% del total</span>
-</div>
+    <div class="card proyectos">
+      <h2>Proyectos Activos</h2>
+      <p class="metrica-numero">{{ estadisticas.proyectosActivos }}</p>
+      <span class="porcentaje">{{ porcentajeProyectos }}% de los proyectos</span>
+    </div>
 
-<div class="card clientes">
-  <h2>Clientes Activos</h2>
-  <p>{{ estadisticas.clientesActivos }}</p>
-  <span class="porcentaje">{{ porcentajeClientes }}% del total</span>
-</div>
+    <div class="card proyectos-finalizados">
+      <h2>Proyectos Finalizados</h2>
+      <p class="metrica-numero">{{ estadisticas.proyectosFinalizados }}</p>
+      <span class="porcentaje">{{ porcentajeProyectosFinalizados }}% de los proyectos</span>
+    </div>
 
-<div *ngIf="loading" class="loading">
-  Cargando estadísticas...
-</div>
+    <div class="card tareas">
+      <h2>Tareas Pendientes</h2>
+      <p class="metrica-numero">{{ estadisticas.tareasPendientes }}</p>
+      <span class="porcentaje">{{ porcentajeTareas }}% de las tareas</span>
+    </div>
 
-<div *ngIf="!loading">
+    <div class="card tareas-finalizadas">
+      <h2>Tareas Finalizadas</h2>
+      <p class="metrica-numero">{{ estadisticas.tareasFinalizadas }}</p>
+      <span class="porcentaje">{{ porcentajeTareasFinalizadas }}% de las tareas</span>
+    </div>
+
+    <div class="card clientes">
+      <h2>Clientes Activos</h2>
+      <p class="metrica-numero">{{ estadisticas.clientesActivos }}</p>
+      <span class="porcentaje">{{ porcentajeClientes }}% del volumen general</span>
+    </div>
+
+  </div>
+
+  <div class="grafico-section" *ngIf="estadisticas.proyectosPorCliente?.length > 0">
+    <h3>Proyectos por Cliente</h3>
+    <div class="chart-wrapper">
+      <canvas baseChart
+        [data]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [type]="barChartType">
+      </canvas>
+    </div>
+  </div>
+
 </div>
