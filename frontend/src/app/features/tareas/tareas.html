@@ -1,0 +1,72 @@
+<div class="tareas-container">
+  <div class="page-header">
+    <div>
+      <h2>Mesa de Trabajo y Tareas</h2>
+      <p>Selecciona un proyecto para gestionar sus asignaciones en el tablero Kanban</p>
+    </div>
+  </div>
+
+  <div class="project-selector-bar">
+    <div class="selector-group">
+      <label for="selectProyecto">Proyecto Activo:</label>
+      <select 
+        id="selectProyecto" 
+        [(ngModel)]="idProyectoSeleccionado" 
+        (change)="onProyectoChange()" 
+        class="form-control select-proyecto">
+        <option [value]="null" disabled selected>-- Selecciona un Proyecto para empezar --</option>
+        <option *ngFor="let prox of listaProyectosActivos" [value]="prox.id">
+          {{ prox.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <button 
+      class="btn-primary" 
+      [disabled]="!idProyectoSeleccionado" 
+      (click)="abrirModalCrear()">
+      + Nueva Tarea
+    </button>
+  </div>
+
+  <p class="error-text" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+  <div class="workspace-area">
+    <div *ngIf="!idProyectoSeleccionado" class="no-project-selected">
+      <div class="icon-placeholder">📋</div>
+      <h3>Ningún proyecto seleccionado</h3>
+      <p>Por favor, elige un proyecto de la lista superior para cargar su flujo de trabajo y visualizar el tablero.</p>
+    </div>
+
+    <div *ngIf="idProyectoSeleccionado" class="kanban-wrapper">
+      <app-kanban 
+        [idProyecto]="idProyectoSeleccionado" 
+        (tareaCambiada)="onTareaCambiadaInKanban()">
+      </app-kanban>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal-card">
+    <h3>Crear Nueva Tarea</h3>
+    <p>La tarea se añadirá automáticamente a la columna <strong>PENDIENTE</strong> del proyecto seleccionado.</p>
+
+    <div class="form-group">
+      <label>Descripción / Enunciado de la Tarea *</label>
+      <textarea 
+        [(ngModel)]="nuevaTarea.descripcion" 
+        placeholder="Ej: Diseñar el mockup de la página de inicio..." 
+        class="form-control text-area-custom" 
+        rows="4">
+      </textarea>
+    </div>
+
+    <p class="error-text" *ngIf="modalError">{{ modalError }}</p>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-primary" (click)="guardarTarea()">Crear Tarea</button>
+    </div>
+  </div>
+</div>

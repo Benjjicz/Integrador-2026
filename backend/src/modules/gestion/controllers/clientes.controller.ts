@@ -45,11 +45,10 @@ export class ClientesController {
     async obtenerClientes(@Query("estado") estado?: EstadosClientesEnum): Promise<ListClienteDTO[]> {
         const clientes = await this.clientesService.obtenerClientes(estado);
         
-        // Mapeamos las entidades al DTO de salida para mantener la estructura de la respuesta
         return clientes.map(cliente => ({
             id: cliente.id,
             nombre: cliente.nombre,
-            correo: cliente.correo,       // <-- AGREGADO
+            correo: cliente.correo,       
             telefono: cliente.telefono,
             estado: cliente.estado
         } as ListClienteDTO));

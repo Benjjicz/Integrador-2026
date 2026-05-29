@@ -1,0 +1,116 @@
+<div class="proyectos-container">
+  <div class="page-header">
+    <div>
+      <h2>Gestión de Proyectos</h2>
+      <p>Administra los proyectos de desarrollo, asignación de clientes y sus fases</p>
+    </div>
+    <button class="btn-primary" (click)="abrirModalCrear()">+ Nuevo Proyecto</button>
+  </div>
+
+  <div class="filters-bar">
+    <label for="filtroEstado">Filtrar por Estado:</label>
+    <select id="filtroEstado" [(ngModel)]="estadoFiltro" (change)="cargarProyectos()" class="form-control select-filtro">
+      <option value="">Todos</option>
+      <option value="ACTIVO">Activos</option>
+      <option value="FINALIZADO">Finalizados</option>
+      <option value="BAJA">De Baja</option>
+    </select>
+  </div>
+
+  <p class="error-text" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Proyecto</th>
+          <th>Cliente Asociado</th>
+          <th>Tareas Totales</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proyecto of listaProyectos">
+          <td>{{ proyecto.id }}</td>
+          <td class="bold-text">{{ proyecto.nombre }}</td>
+          <td>
+            <span *ngIf="proyecto.cliente" class="cliente-info">
+              {{ proyecto.cliente.nombre }}
+            </span>
+            <span *ngIf="!proyecto.cliente" class="muted-text text-italic">Sin cliente asignado</span>
+          </td>
+          <td>
+            <span class="badge-count">{{ proyecto.tareas?.length || 0 }}</span>
+          </td>
+          <td>{{ proyecto.fechaFinalizacion ? (proyecto.fechaFinalizacion | date:'dd/MM/yyyy') : '-' }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'badge-activo': proyecto.estado === 'ACTIVO',
+              'badge-finalizado': proyecto.estado === 'FINALIZADO',
+              'badge-baja': proyecto.estado === 'BAJA'
+            }">
+              {{ proyecto.estado }}
+            </span>
+          </td>
+          <td>
+            <div class="acciones-cell">
+              <button 
+                *ngIf="proyecto.estado === 'ACTIVO'" 
+                class="btn-action btn-success" 
+                (click)="finalizarProyecto(proyecto)">
+                Finalizar
+              </button>
+              <button 
+                *ngIf="proyecto.estado === 'ACTIVO'" 
+                class="btn-action btn-danger" 
+                (click)="cambiarEstado(proyecto.id, 'BAJA')">
+                Dar de Baja
+              </button>
+              <button 
+                *ngIf="proyecto.estado !== 'ACTIVO'" 
+                class="btn-action btn-secondary" 
+                (click)="cambiarEstado(proyecto.id, 'ACTIVO')">
+                Reactivar
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="listaProyectos.length === 0">
+          <td colspan="7" class="text-center muted-text padding-30">No se encontraron proyectos registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal-card">
+    <h3>Registrar Nuevo Proyecto</h3>
+    <p>Ingresa los detalles para iniciar el seguimiento del proyecto.</p>
+
+    <div class="form-group">
+      <label>Nombre del Proyecto *</label>
+      <input type="text" [(ngModel)]="nuevoProyecto.nombre" placeholder="Ej: Rediseño E-commerce" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Asignar Cliente (Solo Activos)</label>
+      <select [(ngModel)]="nuevoProyecto.idCliente" class="form-control">
+        <option [value]="null">-- Seleccionar un Cliente (Opcional) --</option>
+        <option *ngFor="let cliente of listaClientesActivos" [value]="cliente.id">
+          {{ cliente.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <p class="error-text" *ngIf="modalError">{{ modalError }}</p>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-primary" (click)="guardarProyecto()">Crear Proyecto</button>
+    </div>
+  </div>
+</div>

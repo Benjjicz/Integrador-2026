@@ -1,0 +1,74 @@
+### Frontend - Sistema de Gestión de Proyectos
+
+Este proyecto es la interfaz de usuario para el Sistema de Gestión de Proyectos. Desarrollado con Angular, permite la interacción intuitiva con el backend, la gestión de clientes, proyectos y el seguimiento de tareas mediante un tablero Kanban.
+
+---
+
+## 🚀 Tecnologías
+
+Framework: Angular 17+
+
+Arquitectura: Standalone Components
+
+Estilos: SCSS
+
+Comunicación: HttpClient con arquitectura de Proxy Inverso
+
+UI/UX: Angular CDK (Drag & Drop)
+
+---
+
+## 📋 Requisitos Previos
+
+Node.js (v18 o superior)
+
+-**Angular CLI instalado: npm install -g @angular/cli**
+
+---
+
+## ⚙️ Configuración y Ejecución
+
+-**cd frontend** -**npm install**
+
+Para ejecutar la aplicación en desarrollo, utilizamos un archivo de configuración de proxy para evitar problemas de CORS y redirigir las peticiones correctamente al backend:
+
+-**ng serve --proxy-config proxy.conf.json**
+
+La aplicación estará disponible en http://localhost:4200.
+
+Producción (Build)
+--**ng build**
+
+Los archivos generados se encontrarán en la carpeta /dist.
+
+---
+
+## 💡 Notas: Arquitectura de Despliegue
+
+Detección de entorno: Utilizamos isDevMode() para determinar dinámicamente la URL base.
+
+Proxy Inverso (Nginx): En producción, la aplicación utiliza rutas relativas (/api/...). Esto permite que el servidor web (Nginx) actúe como un puente hacia el backend en el puerto 3000, garantizando una comunicación segura.
+
+---
+
+## 📂 Estructura del Proyecto
+
+src/app/:
+
+layout/: Componentes principales (Clientes, Proyectos, Tareas).
+
+kanban/: Componente especializado para la gestión visual de tareas.
+
+services/: Servicios para la comunicación con la API (ClienteService, ProyectosService, etc.).
+
+---
+
+## Este proyecto fue desarrollado como parte del Trabajo Final (TP) - DAW.
+
+**-GRUPO "A"**
+
+**INTEGRANTES**
+
+- Andrea Natalia Segovia
+- Benjamin Fibiger
+- Susana Ester Ledesma
