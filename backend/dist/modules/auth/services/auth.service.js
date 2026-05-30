@@ -26,7 +26,7 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async login(dto) {
-        const usuario = await this.usuarioRepo.findOne({ where: { nombre: dto.nombre } });
+        const usuario = await this.usuarioRepo.findOne({ where: { usuario: dto.usuario } });
         if (!usuario) {
             throw new common_1.UnauthorizedException('Credenciales inválidas');
         }
@@ -37,7 +37,7 @@ let AuthService = class AuthService {
         if (!passwordMatch) {
             throw new common_1.UnauthorizedException('Credenciales inválidas');
         }
-        const payload = { sub: usuario.id, nombre: usuario.nombre };
+        const payload = { sub: usuario.id, usuario: usuario.usuario };
         const token = await this.jwtService.signAsync(payload);
         return { token };
     }

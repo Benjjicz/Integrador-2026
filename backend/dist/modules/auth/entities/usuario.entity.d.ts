@@ -1,7 +1,7 @@
 import { EstadosUsuariosEnum } from '../enums/estados-usuarios.enum';
 export declare class UsuarioEntity {
     id: number;
-    nombre: string;
+    usuario: string;
     clave: string;
     estado: EstadosUsuariosEnum;
 }

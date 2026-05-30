@@ -16,13 +16,13 @@ class LoginDto {
 }
 exports.LoginDto = LoginDto;
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ description: 'Nombre de usuario para el inicio de sesión' }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], LoginDto.prototype, "nombre", void 0);
+], LoginDto.prototype, "usuario", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ description: 'Contraseña del usuario' }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)

@@ -12,7 +12,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  nombre = ''; 
+  usuario = ''; 
   clave = '';
   errorMensaje = ''; 
 
@@ -24,7 +24,12 @@ export class LoginComponent {
   iniciarSesion() {
     this.errorMensaje = ''; 
 
-    this.authService.login(this.nombre, this.clave).subscribe({
+    const credenciales = {
+      usuario: this.usuario,
+      clave: this.clave
+    };
+
+    this.authService.login(credenciales).subscribe({
       next: (res: any) => { 
         this.authService.guardarToken(res.token);
         this.router.navigate(['/dashboard']); 

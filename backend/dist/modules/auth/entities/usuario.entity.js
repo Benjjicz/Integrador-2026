@@ -20,15 +20,15 @@ __decorate([
     __metadata("design:type", Number)
 ], UsuarioEntity.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', unique: true, nullable: false }),
+    (0, typeorm_1.Column)({ type: 'text', unique: true, nullable: false, name: 'usuario' }),
     __metadata("design:type", String)
-], UsuarioEntity.prototype, "nombre", void 0);
+], UsuarioEntity.prototype, "usuario", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', nullable: false }),
+    (0, typeorm_1.Column)({ type: 'text', nullable: false, name: 'clave' }),
     __metadata("design:type", String)
 ], UsuarioEntity.prototype, "clave", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'enum', enum: estados_usuarios_enum_1.EstadosUsuariosEnum, default: estados_usuarios_enum_1.EstadosUsuariosEnum.ACTIVO }),
+    (0, typeorm_1.Column)({ type: 'enum', enum: estados_usuarios_enum_1.EstadosUsuariosEnum, default: estados_usuarios_enum_1.EstadosUsuariosEnum.ACTIVO, name: 'estado' }),
     __metadata("design:type", String)
 ], UsuarioEntity.prototype, "estado", void 0);
 exports.UsuarioEntity = UsuarioEntity = __decorate([

@@ -1,6 +1,5 @@
 <div class="login-wrapper">
 
-  <!-- PANEL IZQUIERDO: Info del sistema -->
   <div class="info-panel">
     <div class="info-content">
       <h1 class="sistema-titulo">🗂️ GestiónPro</h1>
@@ -43,7 +42,6 @@
     </div>
   </div>
 
-  <!-- PANEL DERECHO: Formulario de login -->
   <div class="login-panel">
     <div class="login-card">
       <div class="login-header">
@@ -53,12 +51,12 @@
 
       <div class="form-group">
         <label>👤 Usuario</label>
-        <input type="text" [(ngModel)]="nombre" placeholder="Ej: usuario" class="form-control">
+        <input type="text" [(ngModel)]="usuario" name="usuario" placeholder="Ej: usuario" class="form-control" required>
       </div>
 
       <div class="form-group">
         <label>🔑 Contraseña</label>
-        <input type="password" [(ngModel)]="clave" placeholder="Tu contraseña" class="form-control">
+        <input type="password" [(ngModel)]="clave" name="clave" placeholder="Tu contraseña" class="form-control" required>
       </div>
 
       <p class="error-text" *ngIf="errorMensaje">⚠️ {{ errorMensaje }}</p>

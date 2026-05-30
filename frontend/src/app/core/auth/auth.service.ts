@@ -10,15 +10,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(nombre: string, clave: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { nombre, clave });
+  login(credenciales: { usuario: string; clave: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credenciales);
   }
 
   guardarToken(token: string) {
     localStorage.setItem('token', token);
   }
 
-  
   cerrarSesion() {
     localStorage.removeItem('token');
   }
