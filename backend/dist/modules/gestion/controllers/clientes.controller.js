@@ -31,6 +31,9 @@ let ClientesController = class ClientesController {
     async actualizarCliente(id, dto) {
         await this.clientesService.actualizarCliente(id, dto);
     }
+    async actualizarClienteParcial(id, dto) {
+        await this.clientesService.actualizarCliente(id, dto);
+    }
     async obtenerClientes(estado) {
         const clientes = await this.clientesService.obtenerClientes(estado);
         return clientes.map(cliente => ({
@@ -60,6 +63,15 @@ __decorate([
     __metadata("design:paramtypes", [Number, update_cliente_dto_1.UpdateClienteDto]),
     __metadata("design:returntype", Promise)
 ], ClientesController.prototype, "actualizarCliente", null);
+__decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_cliente_dto_1.UpdateClienteDto]),
+    __metadata("design:returntype", Promise)
+], ClientesController.prototype, "actualizarClienteParcial", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOkResponse)({ type: list_cliente_dto_1.ListClienteDTO, isArray: true }),

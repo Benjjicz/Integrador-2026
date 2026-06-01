@@ -5,6 +5,7 @@ import { ClienteEntity } from '../entities/cliente.entity';
 import { CreateClienteDto } from '../dtos/input/create-cliente.dto';
 import { UpdateClienteDto } from '../dtos/input/update-cliente.dto';
 import { EstadosClientesEnum } from '../enums/estados-clientes.enum';
+import { EstadosProyectosEnum } from '../enums/estados-proyectos.enum';
 
 @Injectable()
 export class ClientesService {
@@ -19,8 +20,12 @@ export class ClientesService {
       throw new ConflictException(`El cliente '${dto.nombre}' ya está registrado.`);
     }
 
-    const cliente = this.clienteRepo.create({ nombre: dto.nombre, correo: dto.correo,
-      telefono: dto.telefono, estado: EstadosClientesEnum.ACTIVO });
+    const cliente = this.clienteRepo.create({
+      nombre: dto.nombre,
+      correo: dto.correo,
+      telefono: dto.telefono,
+      estado: EstadosClientesEnum.ACTIVO
+    });
     const guardado = await this.clienteRepo.save(cliente);
     return { id: guardado.id };
   }
@@ -32,16 +37,22 @@ export class ClientesService {
   }
 
   async actualizarCliente(id: number, dto: UpdateClienteDto): Promise<void> {
-    const cliente = await this.clienteRepo.findOne({ 
+    const cliente = await this.clienteRepo.findOne({
       where: { id },
-      relations: ['proyectos'] 
+      relations: ['proyectos']
     });
 
     if (!cliente) throw new NotFoundException(`Cliente no encontrado.`);
 
     if (dto.estado === EstadosClientesEnum.BAJA && cliente.estado !== EstadosClientesEnum.BAJA) {
-      if (cliente.proyectos && cliente.proyectos.length > 0) {
-        throw new BadRequestException('No se puede dar de baja un cliente registrado en proyectos.');
+      const proyectosActivos = cliente.proyectos?.filter(
+        p => p.estado !== EstadosProyectosEnum.BAJA
+      ) ?? [];
+
+      if (proyectosActivos.length > 0) {
+        throw new BadRequestException(
+          'No se puede dar de baja un cliente con proyectos activos o finalizados asociados.'
+        );
       }
     }
 

@@ -20,6 +20,7 @@ const swagger_1 = require("@nestjs/swagger");
 const list_proyecto_dto_1 = require("../dtos/output/list-proyecto.dto");
 const estados_proyectos_enum_1 = require("../enums/estados-proyectos.enum");
 const proyectos_service_1 = require("../services/proyectos.service");
+const auth_guard_1 = require("../../auth/guards/auth.guard");
 let ProyectosController = class ProyectosController {
     constructor(proyectosService) {
         this.proyectosService = proyectosService;
@@ -28,6 +29,9 @@ let ProyectosController = class ProyectosController {
         return await this.proyectosService.crearProyecto(dto);
     }
     async actualizarProyecto(id, dto) {
+        await this.proyectosService.actualizarProyecto(id, dto);
+    }
+    async actualizarProyectoParcial(id, dto) {
         await this.proyectosService.actualizarProyecto(id, dto);
     }
     async obtenerProyectos(estado) {
@@ -61,6 +65,15 @@ __decorate([
 ], ProyectosController.prototype, "actualizarProyecto", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_proyecto_dto_1.UpdateProyectoDto]),
+    __metadata("design:returntype", Promise)
+], ProyectosController.prototype, "actualizarProyectoParcial", null);
+__decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOkResponse)({ type: list_proyecto_dto_1.ListProyectoDTO, isArray: true }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)("estado")),
@@ -70,6 +83,7 @@ __decorate([
 ], ProyectosController.prototype, "obtenerProyectos", null);
 exports.ProyectosController = ProyectosController = __decorate([
     (0, swagger_1.ApiTags)('Proyectos'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('proyectos'),
     __metadata("design:paramtypes", [proyectos_service_1.ProyectosService])
 ], ProyectosController);

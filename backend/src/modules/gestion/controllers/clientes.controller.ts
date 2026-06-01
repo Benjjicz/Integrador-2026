@@ -4,7 +4,8 @@ import {
     Get, 
     Param, 
     Post, 
-    Put, 
+    Put,
+    Patch,
     Query, 
     UseGuards, 
     ParseIntPipe 
@@ -40,6 +41,15 @@ export class ClientesController {
     }
 
     @ApiBearerAuth()
+    @Patch(":id")
+    async actualizarClienteParcial(
+        @Param("id", ParseIntPipe) id: number, 
+        @Body() dto: UpdateClienteDto
+    ): Promise<void> {
+        await this.clientesService.actualizarCliente(id, dto);
+    }
+
+    @ApiBearerAuth()
     @ApiOkResponse({ type: ListClienteDTO, isArray: true })
     @Get()
     async obtenerClientes(@Query("estado") estado?: EstadosClientesEnum): Promise<ListClienteDTO[]> {
@@ -53,5 +63,4 @@ export class ClientesController {
             estado: cliente.estado
         } as ListClienteDTO));
     }
-
 }

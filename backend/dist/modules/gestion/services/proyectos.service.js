@@ -44,11 +44,13 @@ let ProyectosService = class ProyectosService {
             }
             nuevoProyecto.cliente = cliente;
         }
+        if (dto.fechaFinalizacion) {
+            nuevoProyecto.fechaFinalizacion = new Date(dto.fechaFinalizacion);
+        }
         const guardado = await this.proyectoRepo.save(nuevoProyecto);
         return { id: guardado.id };
     }
     async actualizarProyecto(id, dto) {
-        console.log('DTO recibido:', dto);
         const proyecto = await this.proyectoRepo.findOne({ where: { id } });
         if (!proyecto) {
             throw new common_1.NotFoundException(`Proyecto con ID ${id} no encontrado.`);
@@ -77,7 +79,9 @@ let ProyectosService = class ProyectosService {
             }
         }
         if (dto.fechaFinalizacion !== undefined) {
-            proyecto.fechaFinalizacion = dto.fechaFinalizacion ? new Date(dto.fechaFinalizacion) : null;
+            proyecto.fechaFinalizacion = dto.fechaFinalizacion
+                ? new Date(dto.fechaFinalizacion)
+                : null;
         }
         await this.proyectoRepo.save(proyecto);
     }

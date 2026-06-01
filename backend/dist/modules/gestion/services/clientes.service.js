@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const cliente_entity_1 = require("../entities/cliente.entity");
 const estados_clientes_enum_1 = require("../enums/estados-clientes.enum");
+const estados_proyectos_enum_1 = require("../enums/estados-proyectos.enum");
 let ClientesService = class ClientesService {
     constructor(clienteRepo) {
         this.clienteRepo = clienteRepo;
@@ -27,8 +28,12 @@ let ClientesService = class ClientesService {
         if (existe) {
             throw new common_1.ConflictException(`El cliente '${dto.nombre}' ya está registrado.`);
         }
-        const cliente = this.clienteRepo.create({ nombre: dto.nombre, correo: dto.correo,
-            telefono: dto.telefono, estado: estados_clientes_enum_1.EstadosClientesEnum.ACTIVO });
+        const cliente = this.clienteRepo.create({
+            nombre: dto.nombre,
+            correo: dto.correo,
+            telefono: dto.telefono,
+            estado: estados_clientes_enum_1.EstadosClientesEnum.ACTIVO
+        });
         const guardado = await this.clienteRepo.save(cliente);
         return { id: guardado.id };
     }
@@ -46,8 +51,9 @@ let ClientesService = class ClientesService {
         if (!cliente)
             throw new common_1.NotFoundException(`Cliente no encontrado.`);
         if (dto.estado === estados_clientes_enum_1.EstadosClientesEnum.BAJA && cliente.estado !== estados_clientes_enum_1.EstadosClientesEnum.BAJA) {
-            if (cliente.proyectos && cliente.proyectos.length > 0) {
-                throw new common_1.BadRequestException('No se puede dar de baja un cliente registrado en proyectos.');
+            const proyectosActivos = cliente.proyectos?.filter(p => p.estado !== estados_proyectos_enum_1.EstadosProyectosEnum.BAJA) ?? [];
+            if (proyectosActivos.length > 0) {
+                throw new common_1.BadRequestException('No se puede dar de baja un cliente con proyectos activos o finalizados asociados.');
             }
         }
         if (dto.nombre)

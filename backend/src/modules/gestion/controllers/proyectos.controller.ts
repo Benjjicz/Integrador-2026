@@ -1,12 +1,14 @@
-import { Body, Controller, Get, Param, Post, Put, Query, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Patch, Query, ParseIntPipe, UseGuards } from "@nestjs/common";
 import { CreateProyectoDto } from "../dtos/input/create-proyecto.dto";
 import { UpdateProyectoDto } from "../dtos/input/update-proyecto.dto";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { ListProyectoDTO } from "../dtos/output/list-proyecto.dto";
 import { EstadosProyectosEnum } from "../enums/estados-proyectos.enum";
 import { ProyectosService } from "../services/proyectos.service";
+import { AuthGuard } from "../../auth/guards/auth.guard";
 
 @ApiTags('Proyectos')
+@UseGuards(AuthGuard)
 @Controller('proyectos')
 export class ProyectosController {
 
@@ -21,6 +23,15 @@ export class ProyectosController {
     @ApiBearerAuth()
     @Put(":id")
     async actualizarProyecto(
+        @Param("id", ParseIntPipe) id: number,
+        @Body() dto: UpdateProyectoDto
+    ): Promise<void> {
+        await this.proyectosService.actualizarProyecto(id, dto);
+    }
+
+    @ApiBearerAuth()
+    @Patch(":id")
+    async actualizarProyectoParcial(
         @Param("id", ParseIntPipe) id: number,
         @Body() dto: UpdateProyectoDto
     ): Promise<void> {

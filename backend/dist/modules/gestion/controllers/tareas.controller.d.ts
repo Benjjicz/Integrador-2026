@@ -10,6 +10,7 @@ export declare class TareasController {
     }>;
     actualizarEstado(id: number, estado: EstadosTareasEnum): Promise<import("../entities/tarea.entity").TareaEntity>;
     actualizarTarea(id: number, dto: UpdateTareaDto): Promise<void>;
+    actualizarTareaParcial(id: number, dto: UpdateTareaDto): Promise<void>;
     eliminarTarea(id: number): Promise<void>;
     obtenerTareas(idProyecto?: number): Promise<{
         id: number;

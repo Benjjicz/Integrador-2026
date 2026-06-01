@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TareaEntity } from '../entities/tarea.entity';
@@ -6,6 +6,7 @@ import { ProyectoEntity } from '../entities/proyecto.entity';
 import { CreateTareaDto } from '../dtos/input/create-tarea.dto';
 import { UpdateTareaDto } from '../dtos/input/update-tarea.dto';
 import { EstadosTareasEnum } from '../enums/estados-tareas.enum';
+import { EstadosProyectosEnum } from '../enums/estados-proyectos.enum';
 
 @Injectable()
 export class TareasService {
@@ -22,17 +23,20 @@ export class TareasService {
       throw new NotFoundException(`El proyecto con ID ${dto.idProyecto} no existe.`);
     }
 
+    if (proyecto.estado === EstadosProyectosEnum.BAJA) {
+      throw new BadRequestException('No se pueden agregar tareas a un proyecto dado de baja.');
+    }
+
     const nuevaTarea = this.tareaRepo.create({
       descripcion: dto.descripcion,
       estado: EstadosTareasEnum.PENDIENTE,
-      proyecto: proyecto 
+      proyecto: proyecto
     });
 
     const result = await this.tareaRepo.save(nuevaTarea);
     return { id: result.id };
   }
 
-  // --- FUNCIONALIDAD PARA EL KANBAN ---
   async actualizarEstado(id: number, estado: EstadosTareasEnum): Promise<TareaEntity> {
     const tarea = await this.tareaRepo.findOne({ where: { id } });
     if (!tarea) {
@@ -46,14 +50,13 @@ export class TareasService {
   async obtenerTareas(idProyecto?: number): Promise<TareaEntity[]> {
     const query = this.tareaRepo.createQueryBuilder('tarea')
       .leftJoinAndSelect('tarea.proyecto', 'proyecto');
-    
+
     if (idProyecto) {
-      query.where('tarea.proyecto = :idProyecto', { idProyecto });
+      query.where('proyecto.id = :idProyecto', { idProyecto });
     }
-    
+
     return await query.orderBy('tarea.id', 'ASC').getMany();
   }
-  // ------------------------------------
 
   async actualizarTarea(id: number, dto: UpdateTareaDto): Promise<void> {
     const tarea = await this.tareaRepo.findOne({ where: { id }, relations: ['proyecto'] });
@@ -65,6 +68,9 @@ export class TareasService {
     if (dto.idProyecto) {
       const proyecto = await this.proyectoRepo.findOne({ where: { id: dto.idProyecto } });
       if (!proyecto) throw new NotFoundException(`El proyecto destino no existe.`);
+      if (proyecto.estado === EstadosProyectosEnum.BAJA) {
+        throw new BadRequestException('No se puede reasignar una tarea a un proyecto dado de baja.');
+      }
       tarea.proyecto = proyecto;
     }
 

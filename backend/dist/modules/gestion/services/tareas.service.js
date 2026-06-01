@@ -19,6 +19,7 @@ const typeorm_2 = require("typeorm");
 const tarea_entity_1 = require("../entities/tarea.entity");
 const proyecto_entity_1 = require("../entities/proyecto.entity");
 const estados_tareas_enum_1 = require("../enums/estados-tareas.enum");
+const estados_proyectos_enum_1 = require("../enums/estados-proyectos.enum");
 let TareasService = class TareasService {
     constructor(tareaRepo, proyectoRepo) {
         this.tareaRepo = tareaRepo;
@@ -28,6 +29,9 @@ let TareasService = class TareasService {
         const proyecto = await this.proyectoRepo.findOne({ where: { id: dto.idProyecto } });
         if (!proyecto) {
             throw new common_1.NotFoundException(`El proyecto con ID ${dto.idProyecto} no existe.`);
+        }
+        if (proyecto.estado === estados_proyectos_enum_1.EstadosProyectosEnum.BAJA) {
+            throw new common_1.BadRequestException('No se pueden agregar tareas a un proyecto dado de baja.');
         }
         const nuevaTarea = this.tareaRepo.create({
             descripcion: dto.descripcion,
@@ -49,7 +53,7 @@ let TareasService = class TareasService {
         const query = this.tareaRepo.createQueryBuilder('tarea')
             .leftJoinAndSelect('tarea.proyecto', 'proyecto');
         if (idProyecto) {
-            query.where('tarea.proyecto = :idProyecto', { idProyecto });
+            query.where('proyecto.id = :idProyecto', { idProyecto });
         }
         return await query.orderBy('tarea.id', 'ASC').getMany();
     }
@@ -65,6 +69,9 @@ let TareasService = class TareasService {
             const proyecto = await this.proyectoRepo.findOne({ where: { id: dto.idProyecto } });
             if (!proyecto)
                 throw new common_1.NotFoundException(`El proyecto destino no existe.`);
+            if (proyecto.estado === estados_proyectos_enum_1.EstadosProyectosEnum.BAJA) {
+                throw new common_1.BadRequestException('No se puede reasignar una tarea a un proyecto dado de baja.');
+            }
             tarea.proyecto = proyecto;
         }
         await this.tareaRepo.save(tarea);

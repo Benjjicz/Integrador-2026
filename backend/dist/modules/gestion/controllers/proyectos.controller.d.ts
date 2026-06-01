@@ -9,6 +9,7 @@ export declare class ProyectosController {
         id: number;
     }>;
     actualizarProyecto(id: number, dto: UpdateProyectoDto): Promise<void>;
+    actualizarProyectoParcial(id: number, dto: UpdateProyectoDto): Promise<void>;
     obtenerProyectos(estado?: EstadosProyectosEnum): Promise<{
         id: number;
         nombre: string;

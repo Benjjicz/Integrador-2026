@@ -27,9 +27,9 @@ export class DashboardComponent implements OnInit {
           const payloadBase64 = token.split('.')[1]; 
           const payloadDecodificado = JSON.parse(window.atob(payloadBase64)); 
           
-          this.nombreUsuario = payloadDecodificado.nombre || 
+          this.nombreUsuario = payloadDecodificado.usuario || 
+                               payloadDecodificado.nombre || 
                                payloadDecodificado.username || 
-                               payloadDecodificado.email || 
                                'Usuario'; 
         } catch (e) {
           console.error('Error al decodificar el token:', e);

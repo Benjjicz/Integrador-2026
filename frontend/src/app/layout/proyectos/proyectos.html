@@ -26,8 +26,12 @@
       <input type="date" [(ngModel)]="nuevoFechaFinalizacion" class="form-select">
     </div>
     <div class="form-actions">
-      <button class="btn-guardar" (click)="guardarProyecto()"><span class="material-symbols-outlined">save</span> Guardar Proyecto</button>
-      <button class="btn-cancelar" (click)="toggleFormulario()"><span class="material-symbols-outlined">close</span> Cancelar</button>
+      <button class="btn-guardar" (click)="guardarProyecto()">
+        <span class="material-symbols-outlined">save</span> Guardar Proyecto
+      </button>
+      <button class="btn-cancelar" (click)="toggleFormulario()">
+        <span class="material-symbols-outlined">close</span> Cancelar
+      </button>
     </div>
   </div>
 
@@ -59,8 +63,12 @@
       <input type="date" [(ngModel)]="editFechaFinalizacion" class="form-select">
     </div>
     <div class="form-actions">
-      <button class="btn-guardar" (click)="guardarEdicion()"><span class="material-symbols-outlined">save</span> Actualizar</button>
-      <button class="btn-cancelar" (click)="cancelarEdicion()"><span class="material-symbols-outlined">close</span> Cancelar</button>
+      <button class="btn-guardar" (click)="guardarEdicion()">
+        <span class="material-symbols-outlined">save</span> Actualizar
+      </button>
+      <button class="btn-cancelar" (click)="cancelarEdicion()">
+        <span class="material-symbols-outlined">close</span> Cancelar
+      </button>
     </div>
   </div>
 
@@ -103,23 +111,38 @@
           </span>
         </td>
         <td>
-          <span *ngIf="!proy.fechaFinalizacion" style="color: #94a3b8;">—</span>
-          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! < 0"
-                class="badge-plazo plazo-vencido">
-            🔴 Vencido hace {{ diasRestantes(proy.fechaFinalizacion)! * -1 }} días
+          <!-- Proyectos dados de baja no muestran plazo -->
+          <span *ngIf="proy.estado === 'BAJA'" style="color: #94a3b8;">—</span>
+
+          <!-- Proyectos finalizados muestran ícono de completado -->
+          <span *ngIf="proy.estado === 'FINALIZADO'" class="badge-plazo plazo-ok">
+            ✓ Completado
           </span>
-          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! === 0"
-                class="badge-plazo plazo-proximo">
-            🟡 Vence hoy
-          </span>
-          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 0 && diasRestantes(proy.fechaFinalizacion)! <= 7"
-                class="badge-plazo plazo-proximo">
-            🟡 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
-          </span>
-          <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 7"
-                class="badge-plazo plazo-ok">
-            🟢 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
-          </span>
+
+          <!-- Solo proyectos ACTIVOS muestran el plazo -->
+          <ng-container *ngIf="proy.estado === 'ACTIVO'">
+            <span *ngIf="!proy.fechaFinalizacion" style="color: #94a3b8;">—</span>
+
+            <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! < 0"
+                  class="badge-plazo plazo-vencido">
+              🔴 Vencido hace {{ diasRestantes(proy.fechaFinalizacion)! * -1 }} días
+            </span>
+
+            <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! === 0"
+                  class="badge-plazo plazo-proximo">
+              🟡 Vence hoy
+            </span>
+
+            <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 0 && diasRestantes(proy.fechaFinalizacion)! <= 7"
+                  class="badge-plazo plazo-proximo">
+              🟡 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
+            </span>
+
+            <span *ngIf="proy.fechaFinalizacion && diasRestantes(proy.fechaFinalizacion)! > 7"
+                  class="badge-plazo plazo-ok">
+              🟢 {{ diasRestantes(proy.fechaFinalizacion) }} días restantes
+            </span>
+          </ng-container>
         </td>
         <td>
           <button class="btn-editar" (click)="abrirEditar(proy)">
@@ -128,7 +151,9 @@
         </td>
       </tr>
       <tr *ngIf="proyectosFiltrados.length === 0">
-        <td colspan="6" style="text-align: center; padding: 20px;">No se encontraron proyectos con ese nombre.</td>
+        <td colspan="6" style="text-align: center; padding: 20px;">
+          No se encontraron proyectos con ese nombre.
+        </td>
       </tr>
     </tbody>
   </table>

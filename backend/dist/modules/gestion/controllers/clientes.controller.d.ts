@@ -10,5 +10,6 @@ export declare class ClientesController {
         id: number;
     }>;
     actualizarCliente(id: number, dto: UpdateClienteDto): Promise<void>;
+    actualizarClienteParcial(id: number, dto: UpdateClienteDto): Promise<void>;
     obtenerClientes(estado?: EstadosClientesEnum): Promise<ListClienteDTO[]>;
 }
