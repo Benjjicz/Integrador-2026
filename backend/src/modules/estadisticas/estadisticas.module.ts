@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { EstadisticasController } from './controllers/estadisticas.controller';
 import { EstadisticasService } from './services/estadisticas.service';
+import { AuthModule } from '../auth/auth.module'; 
 
 import { ProyectoEntity } from '../gestion/entities/proyecto.entity';
 import { ClienteEntity } from '../gestion/entities/cliente.entity';
@@ -15,6 +16,7 @@ import { TareaEntity } from '../gestion/entities/tarea.entity';
       ClienteEntity,
       TareaEntity,
     ]),
+    AuthModule, 
   ],
   controllers: [EstadisticasController],
   providers: [EstadisticasService],

@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly baseUrl = isDevMode() ? 'http://localhost:3000' : '';
-  private readonly apiUrl = `${this.baseUrl}/api/v1/auth`;
+  
+  private readonly apiUrl = '/api/v1/auth';
 
   constructor(private http: HttpClient) { }
 

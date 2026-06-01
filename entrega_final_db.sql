@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict 3eIc9HfL1AO3eQuJtSLjQaRo5ekciyJulrHeXuX9yjEfPsI9a9V5hSzpIErwxXX
+\restrict 5gSlQFGGU7gKx2dBFz5aM1jBhtfg7waIecS8Z8TdT9P9WprsfwgK5yKoIUm0qyz
 
 -- Dumped from database version 16.13
 -- Dumped by pg_dump version 16.13
 
--- Started on 2026-05-31 21:56:11
+-- Started on 2026-06-01 13:26:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1161,17 +1161,11 @@ REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
-\unrestrict 3eIc9HfL1AO3eQuJtSLjQaRo5ekciyJulrHeXuX9yjEfPsI9a9V5hSzpIErwxXX
+-- Completed on 2026-06-01 13:26:31
 
+--
+-- PostgreSQL database dump complete
+--
 
+\unrestrict 5gSlQFGGU7gKx2dBFz5aM1jBhtfg7waIecS8Z8TdT9P9WprsfwgK5yKoIUm0qyz
 
--- Completed on 2026-05-30 18:22:26
-
--- ===========================================================================
--- 🔑 USUARIO DE PRUEBA CONFIGURADO POR DEFECTO
--- ===========================================================================
--- Este comando inserta el usuario listo para iniciar sesión en la web.
--- Credenciales: Usuario: usuario | Contraseña: clave
-
-INSERT INTO public.usuarios (nombre, clave, estado, rol) 
-VALUES ('usuario', '$2b$10$VGvtZHBWCmnmofORFuoz2OxNY3KT3gHLaDpXsBRkwuJbJ3tZTGGHO', 'ACTIVO', 'ADMIN');
