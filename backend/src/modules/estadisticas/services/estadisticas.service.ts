@@ -8,6 +8,7 @@ import { TareaEntity } from '../../gestion/entities/tarea.entity';
 
 import { EstadosProyectosEnum } from '../../gestion/enums/estados-proyectos.enum';
 import { EstadosTareasEnum } from '../../gestion/enums/estados-tareas.enum';
+import { EstadosClientesEnum } from '../../gestion/enums/estados-clientes.enum';
 
 @Injectable()
 export class EstadisticasService {
@@ -39,12 +40,14 @@ export class EstadisticasService {
       where: { estado: EstadosTareasEnum.FINALIZADA },
     });
 
-    const clientesActivos = await this.clienteRepo.count();
+    const clientesActivos = await this.clienteRepo.count({
+      where: { estado: EstadosClientesEnum.ACTIVO },
+    });
 
     const proyectosPorCliente = await this.proyectoRepo
       .createQueryBuilder('p')
       .leftJoin('p.cliente', 'c')
-      .select('c.nombre', 'cliente')
+      .select("COALESCE(c.nombre, 'Sin cliente')", 'cliente')
       .addSelect('COUNT(p.id)', 'cantidad')
       .groupBy('c.nombre')
       .getRawMany();

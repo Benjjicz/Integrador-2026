@@ -1,8 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { EstadosProyectosEnum } from "../../enums/estados-proyectos.enum";
 import { ListTareaDTO } from "./list-tarea.dto";
+import { ListClienteDTO } from "./list-cliente.dto";
 
 export class ProyectoDTO {
+
+    @ApiProperty()
+    id!: number;
 
     @ApiProperty()
     nombre!: string;
@@ -10,10 +14,10 @@ export class ProyectoDTO {
     @ApiProperty()
     estado!: EstadosProyectosEnum;
 
-    @ApiProperty()
-    cliente!: string;
+    @ApiPropertyOptional({ type: () => ListClienteDTO })
+    cliente?: ListClienteDTO | null;
 
-    @ApiProperty()
+    @ApiProperty({ type: () => ListTareaDTO, isArray: true })
     tareas!: ListTareaDTO[];
 
 }

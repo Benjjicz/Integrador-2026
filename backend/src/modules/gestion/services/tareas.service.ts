@@ -27,10 +27,14 @@ export class TareasService {
       throw new BadRequestException('No se pueden agregar tareas a un proyecto dado de baja.');
     }
 
+    if (proyecto.estado === EstadosProyectosEnum.FINALIZADO) {
+      throw new BadRequestException('No se pueden agregar tareas a un proyecto finalizado.');
+    }
+
     const nuevaTarea = this.tareaRepo.create({
       descripcion: dto.descripcion,
       estado: EstadosTareasEnum.PENDIENTE,
-      proyecto: proyecto
+      proyecto: proyecto,
     });
 
     const result = await this.tareaRepo.save(nuevaTarea);
@@ -38,6 +42,10 @@ export class TareasService {
   }
 
   async actualizarEstado(id: number, estado: EstadosTareasEnum): Promise<TareaEntity> {
+    if (!Object.values(EstadosTareasEnum).includes(estado)) {
+      throw new BadRequestException(`Estado inválido: ${estado}`);
+    }
+
     const tarea = await this.tareaRepo.findOne({ where: { id } });
     if (!tarea) {
       throw new NotFoundException(`Tarea con ID ${id} no encontrada.`);
@@ -80,6 +88,7 @@ export class TareasService {
   async eliminarTarea(id: number): Promise<void> {
     const tarea = await this.tareaRepo.findOne({ where: { id } });
     if (!tarea) throw new NotFoundException(`Tarea con ID ${id} no encontrada.`);
-    await this.tareaRepo.remove(tarea);
+    tarea.estado = EstadosTareasEnum.BAJA;
+    await this.tareaRepo.save(tarea);
   }
 }

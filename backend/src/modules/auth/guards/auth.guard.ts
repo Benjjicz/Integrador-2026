@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
@@ -16,15 +16,14 @@ export class AuthGuard implements CanActivate {
 
     if (!token) throw new UnauthorizedException('Token no proporcionado');
 
-    try {
-      const secret = this.configService.get<string>('JWT_SECRET');
-      if (!secret) throw new Error('JWT_SECRET no configurado');
+    const secret = this.configService.get<string>('JWT_SECRET');
+    if (!secret) throw new InternalServerErrorException('JWT_SECRET no configurado en el servidor');
 
+    try {
       const payload = await this.jwtService.verifyAsync(token, { secret });
       request['user'] = payload;
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('secret')) throw error;
-      throw new UnauthorizedException('Token inválido');
+    } catch {
+      throw new UnauthorizedException('Token inválido o expirado');
     }
 
     return true;

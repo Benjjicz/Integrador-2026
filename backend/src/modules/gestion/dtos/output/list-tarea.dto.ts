@@ -12,4 +12,7 @@ export class ListTareaDTO {
     @ApiProperty()
     estado!: EstadosTareasEnum;
 
+    @ApiProperty()
+    idProyecto!: number;
+
 }
