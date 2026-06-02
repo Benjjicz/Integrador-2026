@@ -1,0 +1,64 @@
+.card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #eef2f5;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+  color: #333333;
+}
+
+.table th {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #eef2f5;
+}
+
+.table td {
+  padding: 16px;
+  border-bottom: 1px solid #eef2f5;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+
+.detalles-json {
+  display: block;
+  max-width: 380px;
+  white-space: pre-wrap; 
+  word-break: break-word;
+  color: #2d3748; 
+  font-family: inherit;
+  background-color: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+.gap-2 {
+  gap: 0.8rem !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+
+.d-flex.justify-content-end {
+  margin-top: 50px !important;
+  margin-bottom: 30px !important;
+}
+
+
+.btn-success {
+  padding: 15px 25px !important; 
+  font-size: 16px !important;    
+  font-weight: bold !important; 
+}

@@ -1169,3 +1169,16 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 
 \unrestrict 5gSlQFGGU7gKx2dBFz5aM1jBhtfg7waIecS8Z8TdT9P9WprsfwgK5yKoIUm0qyz
 
+
+
+-- ==================================================================
+-- ACTUALIZACION DE AUDITORIA : REGISTRO PARA LA TABLA DE TAREAS
+-- =================================================================
+-- Crear el siguiente trigger en la base de datos
+-- Va a registrar los cambios en la tabla de tareas
+CREATE TRIGGER trg_auditoria_tareas
+AFTER INSERT OR UPDATE ON public.tareas
+FOR EACH ROW
+EXECUTE FUNCTION public.registrar_auditoria();
+
+-- =================================================================

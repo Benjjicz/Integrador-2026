@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { GestionModule } from './modules/gestion/gestion.module';
 import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
+import { AuditoriasModule } from './modules/auditorias/auditorias.module';  //importo mi modulo auditorias
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
     AuthModule,
     GestionModule,
     EstadisticasModule,
+    AuditoriasModule,
   ],
   controllers: [],
   providers: [],

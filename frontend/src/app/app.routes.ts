@@ -6,7 +6,7 @@ import { Proyectos } from './layout/proyectos/proyectos';
 import { Tareas } from './layout/tareas/tareas'; 
 import { Estadisticas } from './components/estadisticas/estadisticas';
 import { KanbanComponent } from './features/tareas/kanban/kanban.component';
-
+import { AuditoriasComponent } from './features/auditorias/auditorias'; 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   
@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'tareas', component: Tareas },
       { path: 'kanban', component: KanbanComponent },
       { path: 'estadisticas', component: Estadisticas },
+      { path: 'auditorias', component: AuditoriasComponent }, 
       { path: '', redirectTo: 'proyectos', pathMatch: 'full' }
     ]
   },
