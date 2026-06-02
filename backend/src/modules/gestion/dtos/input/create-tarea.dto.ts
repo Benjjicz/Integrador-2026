@@ -10,5 +10,5 @@ export class CreateTareaDto {
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
-  idProyecto!: number; // ¡Esta es la palabra clave que debe coincidir con el Frontend!
+  idProyecto!: number; 
 }
