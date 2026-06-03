@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { GestionModule } from './modules/gestion/gestion.module';
 import { EstadisticasModule } from './modules/estadisticas/estadisticas.module';
-import { AuditoriasModule } from './modules/auditorias/auditorias.module';  //importo mi modulo auditorias
+import { AuditoriasModule } from './modules/auditorias/auditorias.module';  
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { AuditoriasModule } from './modules/auditorias/auditorias.module';  //im
         database: configService.get<string>('DB_NAME', 'daw_db'),
         autoLoadEntities: true,
         synchronize: false, 
-        ssl: configService.get<string>('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+        ssl: false,
       }),
     }),
 
