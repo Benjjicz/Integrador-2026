@@ -7,12 +7,12 @@ module.exports = {
 
       env: {
         NODE_ENV: 'production',
-        PORT: 4000,
+        PORT: 3000,             
         DB_HOST: 'localhost',
-        DB_PORT: 5433,
+        DB_PORT: 5432,          
         DB_USERNAME: 'postgres',
-        DB_PASSWORD: '1234',
-        DB_NAME: 'gestion_proyectos',
+        DB_PASSWORD: 'admin',   
+        DB_NAME: 'gestion_proyectos2',      
         DB_LOGGING: 'false',
         SWAGGER_HABILITADO: 'false',
         JWT_SECRET: 'gtT0zY6&5Sx%7c29x&O4@^@73D&uz^xQ'
